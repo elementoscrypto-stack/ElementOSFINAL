@@ -1053,7 +1053,7 @@ function MISidebar({ active, setActive }) {
   ];
 
   return (
-    <aside className="eos-v306-sidebar rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 shadow-2xl shadow-black/30 lg:sticky lg:top-8 lg:h-[calc(100vh-4rem)]">
+    <aside className="eos-v306-sidebar eos-v307-sidebar rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 shadow-2xl shadow-black/30 lg:sticky lg:top-8 lg:h-[calc(100vh-4rem)]">
       <div className="eos-v306-brand mb-8 flex items-center gap-3">
         <div className="rounded-2xl bg-cyan-300 p-3 text-slate-950"><Atom size={24} /></div>
         <div>

@@ -1444,3 +1444,469 @@ input[placeholder*="search"]:focus {
   }
 }
 
+
+/* =========================================================
+   ELEMENTOS V307 FULL-SITE CINEMATIC THEME
+   Applies the V306 homepage/sidebar language across the
+   entire app: pages, panels, labs, reports, forms, cards,
+   tables, nav, modals and mobile surfaces.
+   Visual-only. Existing functions/routes remain unchanged.
+   ========================================================= */
+
+:root {
+  --eos307-bg: #020617;
+  --eos307-panel: rgba(8, 17, 34, 0.78);
+  --eos307-panel-2: rgba(15, 23, 42, 0.68);
+  --eos307-panel-3: rgba(2, 6, 23, 0.72);
+  --eos307-border: rgba(125, 211, 252, 0.18);
+  --eos307-border-strong: rgba(103, 232, 249, 0.44);
+  --eos307-text: #f8fafc;
+  --eos307-muted: #94a3b8;
+  --eos307-cyan: #67e8f9;
+  --eos307-blue: #60a5fa;
+  --eos307-purple: #a78bfa;
+  --eos307-pink: #f0abfc;
+  --eos307-emerald: #6ee7b7;
+  --eos307-amber: #fbbf24;
+  --eos307-red: #fca5a5;
+  --eos307-radius: 1.5rem;
+  --eos307-radius-lg: 2rem;
+  --eos307-shadow: 0 28px 90px rgba(0, 0, 0, 0.36);
+  --eos307-glow: 0 0 0 1px rgba(103, 232, 249, 0.10), 0 26px 90px rgba(8, 145, 178, 0.16);
+}
+
+/* Global atmosphere */
+html,
+body,
+#root {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(34, 211, 238, 0.12), transparent 27%),
+    radial-gradient(circle at 83% 12%, rgba(167, 139, 250, 0.11), transparent 29%),
+    radial-gradient(circle at 48% 92%, rgba(96, 165, 250, 0.08), transparent 33%),
+    linear-gradient(135deg, #020617, #07111f 48%, #020617);
+}
+
+body {
+  color: var(--eos307-text);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(125, 211, 252, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.032) 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: radial-gradient(circle at 50% 10%, black 0%, transparent 76%);
+  opacity: 0.58;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 22%, rgba(103, 232, 249, 0.14), transparent 10%),
+    radial-gradient(circle at 74% 36%, rgba(167, 139, 250, 0.11), transparent 12%),
+    linear-gradient(to bottom, rgba(2,6,23,0.08), rgba(2,6,23,0.62));
+}
+
+/* Main app shell */
+.eos-v307-app,
+main,
+.eos-page-stage,
+.eos-scroll-root {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Universal cinematic panels/cards */
+section[class*="rounded"],
+div[class*="rounded-[2rem]"][class*="border"],
+div[class*="rounded-[1.5rem]"][class*="border"],
+article[class*="rounded"],
+[class*="Panel"],
+.panel,
+.card,
+.eos-panel {
+  backdrop-filter: blur(20px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 20px 70px rgba(0,0,0,.22);
+}
+
+/* Target the common Tailwind panel classes throughout the existing app */
+[class*="border-white/10"],
+[class*="border-cyan-300/"],
+[class*="border-sky-300/"],
+[class*="border-blue-300/"],
+[class*="border-emerald-300/"],
+[class*="border-amber-300/"],
+[class*="border-fuchsia-300/"],
+[class*="border-purple-300/"] {
+  border-color: var(--eos307-border) !important;
+}
+
+[class*="bg-white/[0.035]"],
+[class*="bg-white/[0.04]"],
+[class*="bg-white/[0.045]"],
+[class*="bg-white/[0.05]"],
+[class*="bg-black/20"],
+[class*="bg-black/25"],
+[class*="bg-slate-950/"],
+[class*="bg-slate-900/"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.055), transparent 34%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.76), rgba(2, 6, 23, 0.66)) !important;
+}
+
+/* Panel hover polish where elements are interactive */
+button[class*="rounded"],
+a[class*="rounded"],
+[role="button"][class*="rounded"] {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+button[class*="rounded"]:hover,
+a[class*="rounded"]:hover,
+[role="button"][class*="rounded"]:hover {
+  border-color: var(--eos307-border-strong) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    var(--eos307-glow);
+}
+
+/* Global buttons remain horizontal */
+button,
+.button,
+.btn,
+[role="button"],
+a[class*="rounded"][class*="px-"] {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+button:not(:has(p)),
+.button,
+.btn,
+[role="button"]:not(:has(p)),
+a[class*="rounded"][class*="px-"] {
+  white-space: nowrap !important;
+}
+
+/* Large card-buttons with descriptions stay stacked */
+main button:has(p),
+.eos-action-card,
+.eos-feature-card,
+.eos-home-card,
+.eos-tool-card,
+.eos-mission-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.9rem !important;
+  text-align: center !important;
+  white-space: normal !important;
+  min-width: 0 !important;
+  width: 100%;
+}
+
+main button:has(p) p,
+.eos-action-card p,
+.eos-feature-card p,
+.eos-home-card p,
+.eos-tool-card p,
+.eos-mission-card p {
+  white-space: normal !important;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+/* CTA color system */
+button[class*="bg-cyan-300"],
+button[class*="bg-sky-300"],
+button[class*="bg-blue-300"],
+button[class*="bg-white"],
+.eos-button {
+  border: 1px solid rgba(103, 232, 249, 0.28) !important;
+  background:
+    linear-gradient(135deg, rgba(103,232,249,0.98), rgba(96,165,250,0.92) 44%, rgba(167,139,250,0.92)) !important;
+  color: #020617 !important;
+  box-shadow:
+    0 0 0 1px rgba(103,232,249,.08),
+    0 16px 48px rgba(37, 99, 235, 0.25);
+}
+
+button[class*="bg-cyan-300"]:hover,
+button[class*="bg-sky-300"]:hover,
+button[class*="bg-blue-300"]:hover,
+button[class*="bg-white"]:hover,
+.eos-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(103,232,249,.18),
+    0 24px 70px rgba(37, 99, 235, 0.34);
+}
+
+/* Ghost buttons */
+button[class*="border"][class*="px-"]:not([class*="bg-cyan"]):not([class*="bg-white"]),
+a[class*="border"][class*="px-"] {
+  background: rgba(2, 6, 23, 0.36) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  color: rgba(241, 245, 249, 0.92) !important;
+}
+
+button[class*="border"][class*="px-"]:hover,
+a[class*="border"][class*="px-"]:hover {
+  background: rgba(14, 165, 233, 0.12) !important;
+  border-color: rgba(103, 232, 249, 0.38) !important;
+}
+
+/* Typography */
+main h1,
+main h2,
+main h3 {
+  text-wrap: balance;
+}
+
+main h1 {
+  letter-spacing: -0.065em;
+  text-shadow: 0 0 42px rgba(96, 165, 250, 0.12);
+}
+
+main h2 {
+  letter-spacing: -0.04em;
+}
+
+main p {
+  text-wrap: pretty;
+}
+
+[class*="text-cyan"],
+[class*="text-sky"] {
+  color: var(--eos307-cyan) !important;
+}
+
+[class*="text-slate-400"] {
+  color: rgba(203, 213, 225, 0.78) !important;
+}
+
+[class*="text-slate-500"] {
+  color: rgba(148, 163, 184, 0.78) !important;
+}
+
+/* Pills, chips, badges */
+span[class*="rounded-full"],
+div[class*="rounded-full"][class*="border"],
+[class*="Pill"],
+.badge {
+  border-color: rgba(125, 211, 252, 0.20) !important;
+  background:
+    linear-gradient(135deg, rgba(14,165,233,0.12), rgba(99,102,241,0.08)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* Inputs/forms/selects */
+input,
+select,
+textarea {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(103, 232, 249, 0.06), transparent 35%),
+    rgba(2, 6, 23, 0.58) !important;
+  border: 1px solid rgba(125, 211, 252, 0.18) !important;
+  color: #f8fafc !important;
+  border-radius: 1rem;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 163, 184, 0.78);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(103, 232, 249, 0.52) !important;
+  box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.13);
+}
+
+/* Tables and report-like surfaces */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead,
+tr[class*="border"],
+td,
+th {
+  border-color: rgba(125, 211, 252, 0.13) !important;
+}
+
+th {
+  color: rgba(186, 230, 253, 0.92);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+td {
+  color: rgba(226, 232, 240, 0.88);
+}
+
+/* Graph/lab/canvas containers */
+svg,
+canvas {
+  max-width: 100%;
+}
+
+[class*="h-["][class*="rounded"],
+[class*="min-h-["][class*="rounded"] {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 20px 80px rgba(0,0,0,.20);
+}
+
+/* Sidebar global theme */
+.eos-v307-sidebar,
+.eos-v306-sidebar,
+aside,
+[class*="sidebar"] {
+  background:
+    radial-gradient(circle at 42% 0%, rgba(59, 130, 246, 0.18), transparent 31%),
+    radial-gradient(circle at 0% 42%, rgba(103, 232, 249, 0.11), transparent 28%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.97), rgba(8, 17, 34, 0.91) 62%, rgba(2, 6, 23, 0.98)) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  box-shadow:
+    inset -1px 0 0 rgba(125, 211, 252, 0.13),
+    20px 0 90px rgba(0, 0, 0, 0.34);
+}
+
+aside button,
+.eos-v307-sidebar button,
+.eos-v306-sidebar button,
+[class*="sidebar"] button {
+  white-space: nowrap !important;
+  border-radius: 1rem !important;
+}
+
+aside button:hover,
+.eos-v307-sidebar button:hover,
+.eos-v306-sidebar button:hover,
+[class*="sidebar"] button:hover {
+  transform: translateX(3px);
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.17), rgba(99, 102, 241, 0.10)) !important;
+  border-color: rgba(103, 232, 249, 0.28) !important;
+}
+
+/* Page micro-data bars and guidance panels */
+[class*="Example output"],
+[class*="Why it matters"] {
+  color: inherit;
+}
+
+/* Better scrollbars */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.75);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(103,232,249,.42), rgba(167,139,250,.38));
+  border: 2px solid rgba(2, 6, 23, 0.75);
+  border-radius: 999px;
+}
+
+/* Mobile app polish */
+@media (max-width: 900px) {
+  body::before {
+    background-size: 42px 42px;
+    opacity: 0.42;
+  }
+
+  main {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+
+  main h1 {
+    font-size: clamp(2.35rem, 12vw, 4.35rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  main h2 {
+    font-size: clamp(1.7rem, 7vw, 2.75rem) !important;
+  }
+
+  main button:has(p),
+  .eos-action-card,
+  .eos-feature-card,
+  .eos-home-card,
+  .eos-tool-card,
+  .eos-mission-card {
+    min-height: 190px !important;
+  }
+
+  button:not(:has(p)),
+  .button,
+  .btn,
+  [role="button"]:not(:has(p)) {
+    max-width: 100%;
+  }
+}
+
+/* Bottom mobile nav */
+nav[class*="fixed"],
+[class*="bottom"] nav,
+.mobile-nav {
+  backdrop-filter: blur(24px);
+  background:
+    linear-gradient(135deg, rgba(8, 17, 34, 0.92), rgba(2, 6, 23, 0.92)) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+}
+
+/* Accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.92) !important;
+  outline-offset: 3px !important;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
