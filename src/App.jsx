@@ -18475,6 +18475,225 @@ function SystemHealth({ page, selected, compare, forecastRequest, session, isPro
   );
 }
 
+
+
+function V305CinematicHomepage({ setPage, session, isPro, startCheckout }) {
+  const discoveries = useMemo(() => adaptiveDiscoveryRank(generateDiscoveryEngine(12)).slice(0, 3), []);
+  const commandCards = [
+    {
+      id: "compare",
+      icon: Calculator,
+      title: "Compare Engine",
+      description: "Compare materials, elements and compounds with computed compatibility scoring.",
+      accent: "violet",
+    },
+    {
+      id: "explorer",
+      icon: Globe2,
+      title: "Explorer",
+      description: "Explore the periodic table, properties and intelligence profiles for every element.",
+      accent: "cyan",
+    },
+    {
+      id: "timemachine",
+      icon: Clock3,
+      title: "Time Machine",
+      description: "Predict future material behaviour across pressure, heat, corrosion and time.",
+      accent: "emerald",
+    },
+    {
+      id: "discover",
+      icon: Sparkles,
+      title: "Discovery Feed",
+      description: "Open AI-ranked discoveries, trending material signals and public research cards.",
+      accent: "amber",
+    },
+    {
+      id: "seismo",
+      icon: Waves,
+      title: "Seismo",
+      description: "Monitor wave behaviour, seismic response and subsurface intelligence models.",
+      accent: "pink",
+    },
+    {
+      id: "welldriller",
+      icon: Target,
+      title: "Well Driller",
+      description: "Simulate drilling operations and analyse subsurface material compositions.",
+      accent: "blue",
+    },
+    {
+      id: "reports",
+      icon: FileText,
+      title: "Reports",
+      description: "Generate professional reports, export data and share research instantly.",
+      accent: "purple",
+    },
+    {
+      id: "graph",
+      icon: Network,
+      title: "Material Graph",
+      description: "Visualise relationships and hidden connections between materials and elements.",
+      accent: "teal",
+    },
+  ];
+
+  const stats = [
+    [Atom, "118", "Elements", "In Periodic Table", "cyan"],
+    [Layers, "10.4M+", "Material Combinations", "Analysed", "violet"],
+    [Activity, "2.7M+", "Simulations Run", "Across All Engines", "emerald"],
+    [Radar, "24,812", "Active Discoveries", "This Month", "pink"],
+    [ShieldCheck, "98.6%", "Prediction Accuracy", "Enterprise Grade", "blue"],
+    [FileText, "1.2K+", "Research Reports", "Generated", "amber"],
+  ];
+
+  const workspaces = [
+    ["Battery Research", "Updated 2h ago", FileText],
+    ["High Temp Alloys", "Updated 5h ago", Sparkles],
+    ["Quantum Materials", "Updated 1d ago", Dna],
+    ["Seismic Analysis", "Updated 2d ago", Waves],
+  ];
+
+  const reports = [
+    "Top Conductor Materials 2024",
+    "Rare Earth Analysis Report",
+    "Battery Material Forecast Q3",
+    "Seismic Risk Assessment",
+  ];
+
+  return (
+    <div className="eos-v305-homepage">
+      <section className="eos-v305-hero">
+        <div className="eos-v305-hero-copy">
+          <div className="eos-v305-kicker"><Sparkles size={14} /> MATERIAL INTELLIGENCE OS</div>
+          <h1>
+            THE OPERATING SYSTEM
+            <span> FOR MATERIAL</span>
+            <em> INTELLIGENCE</em>
+          </h1>
+          <p className="eos-v305-tagline">Search. Compare. Predict. Discover.</p>
+          <p className="eos-v305-description">
+            ElementOS unifies the periodic table, real-world data, advanced simulation and research-grade reporting into one cinematic intelligence platform.
+          </p>
+          <div className="eos-v305-hero-actions">
+            <button type="button" onClick={() => setPage("dashboard")} className="eos-v305-primary-cta">Explore Platform <ChevronRight size={16} /></button>
+            <button type="button" onClick={() => setPage("compare")} className="eos-v305-secondary-cta">Run Compare <ChevronRight size={16} /></button>
+            {!isPro && (
+              <button type="button" onClick={() => startCheckout?.("Pro Researcher")} className="eos-v305-ghost-cta">Upgrade Research</button>
+            )}
+          </div>
+        </div>
+
+        <div className="eos-v305-molecule-stage" aria-hidden="true">
+          <div className="eos-v305-orbit orbit-one" />
+          <div className="eos-v305-orbit orbit-two" />
+          <div className="eos-v305-orbit orbit-three" />
+          <div className="eos-v305-node node-a" />
+          <div className="eos-v305-node node-b" />
+          <div className="eos-v305-node node-c" />
+          <div className="eos-v305-node node-d" />
+          <div className="eos-v305-node node-e" />
+          <div className="eos-v305-bond bond-a" />
+          <div className="eos-v305-bond bond-b" />
+          <div className="eos-v305-bond bond-c" />
+          <div className="eos-v305-bond bond-d" />
+        </div>
+      </section>
+
+      <section className="eos-v305-stats-grid">
+        {stats.map(([Icon, value, label, detail, accent]) => (
+          <button type="button" key={label} onClick={() => setPage(label.includes("Report") ? "reports" : "discover")} className={`eos-v305-stat-card ${accent}`}>
+            <span className="eos-v305-stat-icon"><Icon size={24} /></span>
+            <strong>{value}</strong>
+            <span>{label}</span>
+            <small>{detail}</small>
+          </button>
+        ))}
+      </section>
+
+      <section className="eos-v305-main-grid">
+        <div className="eos-v305-command-center">
+          <div className="eos-v305-section-head">
+            <div>
+              <span>PLATFORM COMMAND CENTER</span>
+              <h2>Choose your intelligence path.</h2>
+            </div>
+            <button type="button" onClick={() => setPage("mission")} className="eos-v305-mini-link">Mission Control</button>
+          </div>
+
+          <div className="eos-v305-command-grid">
+            {commandCards.map((card) => {
+              const Icon = card.icon;
+              return (
+                <button type="button" key={card.id} onClick={() => setPage(card.id)} className={`eos-v305-command-card ${card.accent}`}>
+                  <span className="eos-v305-command-icon"><Icon size={26} /></span>
+                  <strong>{card.title}</strong>
+                  <p>{card.description}</p>
+                  <span className="eos-v305-launch">Launch <ChevronRight size={14} /></span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <aside className="eos-v305-trending-panel">
+          <div className="eos-v305-section-head compact">
+            <div>
+              <span>TRENDING DISCOVERIES</span>
+              <h2>Live material signals.</h2>
+            </div>
+            <button type="button" onClick={() => setPage("discover")} className="eos-v305-mini-link">View All</button>
+          </div>
+          <div className="eos-v305-trending-list">
+            {discoveries.map((item, index) => (
+              <button type="button" key={item.dna} onClick={() => setPage("discover")} className="eos-v305-trend-card">
+                <span className={`eos-v305-crystal crystal-${index}`}><Gem size={28} /></span>
+                <span>
+                  <strong>{item.a}<sub>{index + 2}</sub>{item.b}<sub>{index + 1}</sub></strong>
+                  <small>{item.type}</small>
+                </span>
+                <em>+{item.velocity || 18}.{index}%</em>
+              </button>
+            ))}
+          </div>
+        </aside>
+      </section>
+
+      <section className="eos-v305-lower-grid">
+        <div className="eos-v305-mini-panel">
+          <div className="eos-v305-section-head compact">
+            <div><span>RECENT WORKSPACES</span><h2>Continue research.</h2></div>
+            <button type="button" onClick={() => setPage(session ? "lab" : "login")} className="eos-v305-mini-link">View All</button>
+          </div>
+          <div className="eos-v305-workspace-grid">
+            {workspaces.map(([title, time, Icon]) => (
+              <button type="button" key={title} onClick={() => setPage("lab")} className="eos-v305-workspace-card">
+                <Icon size={20} />
+                <span><strong>{title}</strong><small>{time}</small></span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="eos-v305-mini-panel">
+          <div className="eos-v305-section-head compact">
+            <div><span>LATEST REPORTS</span><h2>Research outputs.</h2></div>
+            <button type="button" onClick={() => setPage("reports")} className="eos-v305-mini-link">View All</button>
+          </div>
+          <div className="eos-v305-report-grid">
+            {reports.map((title, index) => (
+              <button type="button" key={title} onClick={() => setPage("reports")} className="eos-v305-report-card">
+                <strong>{title}</strong>
+                <span>Generated {index + 2}h ago <em>PDF</em></span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function App() {
   const [page, setPage] = useState("landing");
   const [selected, setSelected] = useState("Al");
@@ -18743,7 +18962,7 @@ const startCheckout = async (planName = "Pro Researcher") => {
   
   const pages = useMemo(
     () => ({
-      landing: <LandingPage setPage={setPage} session={session} isPro={isPro} startCheckout={startCheckout} />,
+      landing: <V305CinematicHomepage setPage={setPage} session={session} isPro={isPro} startCheckout={startCheckout} />,
       beta: <BetaLaunch session={session} setPage={setPage} startCheckout={startCheckout} />,
       copilot: null,
       mission: null,
