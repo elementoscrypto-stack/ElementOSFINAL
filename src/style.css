@@ -185,3 +185,115 @@ button[data-eos-card="action"] * {
 
 .text-balance { text-wrap: balance; }
 .text-pretty { text-wrap: pretty; }
+
+/* =========================================================
+   ElementOS V303 Premium UI Polish
+   Purpose: make homepage/action cards centred, stacked, and
+   premium without causing CTA text to become vertical again.
+   ========================================================= */
+
+/* Proper feature-card grid: consistent card heights and spacing */
+.eos-card-grid-4 {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 1.1rem !important;
+  align-items: stretch !important;
+}
+
+/* Action cards are NOT normal pill buttons. They must stack vertically. */
+.eos-action-card-v303,
+button[data-eos-card="action"].eos-action-card-v303 {
+  position: relative !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 260px !important;
+  padding: 1.5rem !important;
+  text-align: center !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+.eos-action-card-v303 *,
+.eos-action-title-v303,
+.eos-action-body-v303,
+.eos-action-launch-v303 {
+  text-align: center !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+.eos-action-title-v303,
+.eos-action-body-v303 {
+  white-space: normal !important;
+}
+
+.eos-action-title-v303 {
+  text-wrap: balance;
+}
+
+.eos-action-body-v303 {
+  text-wrap: pretty;
+}
+
+.eos-action-launch-v303 {
+  white-space: nowrap !important;
+  min-width: max-content !important;
+  max-width: 100% !important;
+}
+
+.eos-action-icon-v303 {
+  flex: 0 0 auto !important;
+}
+
+/* Standard CTAs stay horizontal and readable. */
+.eos-button,
+.eos-button-fit,
+button[data-eos-control="button"] {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+.eos-button *,
+.eos-button-fit *,
+button[data-eos-control="button"] * {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+/* But never let this CTA rule flatten action cards. */
+button[data-eos-card="action"],
+button[data-eos-card="action"] * {
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+button[data-eos-card="action"] .eos-action-launch-v303 {
+  white-space: nowrap !important;
+}
+
+@media (max-width: 640px) {
+  .eos-card-grid-4 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .eos-action-card-v303 {
+    min-height: 230px !important;
+    padding: 1.25rem !important;
+  }
+}
+

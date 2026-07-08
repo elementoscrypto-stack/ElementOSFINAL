@@ -2418,11 +2418,22 @@ function V240ResearchCentreUpgradePanel({ compare = [], selected = "Ti", isPro, 
 
 function LuxuryActionCard({ title, body, icon: Icon = Sparkles, onClick, primary = false }) {
   return (
-    <button onClick={onClick} className={`group rounded-[1.65rem] border p-5 text-left transition duration-300 hover:-translate-y-1 ${primary ? "border-cyan-300/[.35] bg-cyan-300/10 shadow-[0_0_42px_rgba(34,211,238,.12)]" : "border-white/10 bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.06]"}`}>
-      <div className={`grid h-12 w-12 place-items-center rounded-2xl ${primary ? "bg-cyan-300 text-slate-950" : "border border-white/10 bg-black/25 text-cyan-100"}`}><Icon size={20}/></div>
-      <div className="mt-5 text-xl font-black text-white">{title}</div>
-      <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
-      <div className="mt-4 text-xs font-black uppercase tracking-[.22em] text-cyan-200 opacity-70 transition group-hover:opacity-100">Open workflow →</div>
+    <button
+      type="button"
+      onClick={onClick}
+      data-eos-card="action"
+      className={`eos-action-card-v303 group flex min-h-[260px] w-full flex-col items-center justify-between rounded-[2rem] border p-6 text-center transition duration-300 hover:-translate-y-1 ${primary ? "border-cyan-300/[.38] bg-cyan-300/[.105] shadow-[0_0_54px_rgba(34,211,238,.16)]" : "border-white/10 bg-white/[0.035] hover:border-cyan-300/25 hover:bg-cyan-300/[.055]"}`}
+    >
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <div className={`eos-action-icon-v303 grid h-16 w-16 place-items-center rounded-[1.35rem] ${primary ? "bg-cyan-300 text-slate-950 shadow-[0_0_38px_rgba(34,211,238,.25)]" : "border border-cyan-300/15 bg-black/30 text-cyan-100 shadow-[inset_0_1px_0_rgba(255,255,255,.06)]"}`}>
+          <Icon size={25}/>
+        </div>
+        <div className="eos-action-title-v303 mt-5 text-2xl font-black leading-tight tracking-[-.02em] text-white">{title}</div>
+        <p className="eos-action-body-v303 mx-auto mt-3 max-w-[24rem] text-sm leading-6 text-slate-400">{body}</p>
+      </div>
+      <div className="eos-action-launch-v303 mt-6 inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/[.08] px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-cyan-100 transition group-hover:border-cyan-200/45 group-hover:bg-cyan-300/[.16]">
+        Launch →
+      </div>
     </button>
   );
 }
@@ -4521,6 +4532,104 @@ function ElementOSThemeSkin() {
         .eos-v218-time .text-5xl { font-size: 4.35rem !important; }
       }
 
+
+
+      /* V303 Premium UI Polish Pass — homepage/action-card layout, typography, and safe CTA sizing. */
+      .eos-page-stage {
+        container-type: inline-size;
+      }
+      .eos-card-grid-4 {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+        gap: 1.1rem !important;
+        align-items: stretch !important;
+      }
+      .eos-action-card-v303,
+      .eos-nor-grid-interface button[data-eos-card="action"].eos-action-card-v303 {
+        position: relative !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        min-height: 260px !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        text-align: center !important;
+        isolation: isolate !important;
+      }
+      .eos-action-card-v303::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(103,232,249,.18), transparent 38%),
+          linear-gradient(135deg, rgba(255,255,255,.045), transparent 46%);
+        opacity: .75;
+        transition: opacity .25s ease, transform .25s ease;
+      }
+      .eos-action-card-v303::after {
+        content: "";
+        position: absolute;
+        inset: auto 18% 0 18%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(103,232,249,.42), transparent);
+        opacity: .62;
+      }
+      .eos-action-card-v303:hover::before {
+        opacity: 1;
+        transform: translateY(2px) scale(1.02);
+      }
+      .eos-action-card-v303 *,
+      .eos-action-title-v303,
+      .eos-action-body-v303,
+      .eos-action-launch-v303 {
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: normal !important;
+        text-align: center !important;
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+      }
+      .eos-action-title-v303 {
+        text-wrap: balance;
+      }
+      .eos-action-body-v303 {
+        text-wrap: pretty;
+      }
+      .eos-action-launch-v303 {
+        white-space: nowrap !important;
+        min-width: max-content !important;
+      }
+      .eos-action-icon-v303 {
+        flex: 0 0 auto !important;
+        transition: transform .25s ease, box-shadow .25s ease;
+      }
+      .eos-action-card-v303:hover .eos-action-icon-v303 {
+        transform: translateY(-2px) scale(1.045);
+      }
+      .eos-hero-panel h1 {
+        text-wrap: balance;
+      }
+      .eos-hero-panel p {
+        text-wrap: pretty;
+      }
+      @media (max-width: 640px) {
+        .eos-card-grid-4 {
+          grid-template-columns: 1fr !important;
+        }
+        .eos-action-card-v303 {
+          min-height: 230px !important;
+          padding: 1.25rem !important;
+        }
+        .eos-action-title-v303 {
+          font-size: 1.35rem !important;
+        }
+      }
     `}</style>
   );
 }
