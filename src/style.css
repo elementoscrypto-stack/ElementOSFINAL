@@ -13,3 +13,172 @@ button, input, select { font: inherit; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: rgba(15,23,42,.6); }
 ::-webkit-scrollbar-thumb { background: rgba(34,211,238,.35); border-radius: 999px; }
+
+/* =========================================================
+   ElementOS Global Button + Text Wrapping Stability Patch
+   Fixes buttons rendering vertically when containers get narrow.
+   Keep this block near the bottom of style.css so it overrides
+   earlier Tailwind/component styles.
+   ========================================================= */
+
+/* Stop button labels from breaking into vertical letters */
+button,
+.button,
+.btn,
+[role="button"],
+a.button,
+a.btn {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+  line-break: auto;
+}
+
+/* Make normal buttons size around their content instead of crushing text */
+button:not(.mobile):not(.mobile-nav button):not([aria-label]),
+.button,
+.btn,
+[role="button"],
+a.button,
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: max-content;
+  max-width: 100%;
+  text-align: center;
+}
+
+/* Prevent SVG/icons inside buttons from shrinking and stealing text room */
+button svg,
+.button svg,
+.btn svg,
+[role="button"] svg {
+  flex: 0 0 auto;
+}
+
+/* Let button rows wrap between buttons, not inside the button words */
+.hero-actions,
+.button-row,
+.cta-row,
+.action-row,
+.actions,
+.card-actions,
+.eos-actions,
+.eos-button-row,
+.eos-hero-actions,
+.eos-cta-row,
+.eos-toolbar,
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Common Tailwind button layouts inside flex/grid containers */
+.flex > button,
+.flex > .button,
+.flex > [role="button"] {
+  flex-shrink: 0;
+}
+
+/* Prevent narrow grid/card layouts from squeezing buttons into letter columns */
+.grid button,
+.grid .button,
+.grid [role="button"] {
+  min-width: fit-content;
+}
+
+/* Keep CTA buttons readable on small screens */
+@media (max-width: 640px) {
+  button:not(.mobile):not(.mobile-nav button):not([aria-label]),
+  .button,
+  .btn,
+  [role="button"],
+  a.button,
+  a.btn {
+    min-width: fit-content;
+    max-width: 100%;
+  }
+
+  .hero-actions,
+  .button-row,
+  .cta-row,
+  .action-row,
+  .actions,
+  .card-actions,
+  .eos-actions,
+  .eos-button-row,
+  .eos-hero-actions,
+  .eos-cta-row,
+  .eos-toolbar,
+  .toolbar {
+    width: 100%;
+  }
+}
+
+/* Mobile bottom nav is allowed to be compact, but labels must stay horizontal */
+.mobile-nav button,
+.mobile {
+  min-width: 0;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.mobile-nav button span,
+.mobile-nav button small,
+.mobile span,
+.mobile small {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* If any button was accidentally given break-all/break-words via utility stacking,
+   this forcefully restores sane label behaviour. */
+button *,
+.button *,
+.btn *,
+[role="button"] * {
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Keep long labels readable instead of vertical. They may truncate only if truly needed. */
+button .truncate,
+.button .truncate,
+.btn .truncate,
+[role="button"] .truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Safer default for anchors styled like buttons */
+a[class*="rounded"][class*="px-"],
+a[class*="bg-"][class*="px-"] {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Homepage / landing CTA safety for text like Compare, Discover, Run Simulation */
+main button,
+main [role="button"],
+main a[class*="rounded"] {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+}
+
+/* Emergency override for any accidental vertical writing mode */
+button,
+.button,
+.btn,
+[role="button"] {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
