@@ -297,3 +297,356 @@ button[data-eos-card="action"] .eos-action-launch-v303 {
   }
 }
 
+
+/* =========================================================
+   ELEMENTOS V304 ELITE POLISH SYSTEM
+   Premium visual layer: hero, cards, button architecture,
+   responsive spacing, dashboard rhythm, and mobile stability.
+   This is intentionally appended at the bottom to override
+   older inline/global utility conflicts.
+   ========================================================= */
+
+:root {
+  --eos-bg: #020617;
+  --eos-panel: rgba(15, 23, 42, 0.72);
+  --eos-panel-soft: rgba(255, 255, 255, 0.045);
+  --eos-border: rgba(255, 255, 255, 0.12);
+  --eos-cyan: #67e8f9;
+  --eos-blue: #38bdf8;
+  --eos-violet: #a78bfa;
+  --eos-emerald: #6ee7b7;
+  --eos-gold: #fde68a;
+  --eos-text: #f8fafc;
+  --eos-muted: #94a3b8;
+  --eos-radius-xl: 1.5rem;
+  --eos-radius-2xl: 2rem;
+  --eos-shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
+}
+
+/* Better base rendering */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(34, 211, 238, 0.10), transparent 28%),
+    radial-gradient(circle at 82% 8%, rgba(167, 139, 250, 0.10), transparent 26%),
+    linear-gradient(135deg, #020617, #08111f 58%, #020617);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* V304 hero rhythm */
+.eos-hero,
+.hero,
+.landing-hero,
+[class*="hero"] {
+  position: relative;
+}
+
+.eos-hero h1,
+.hero h1,
+.landing-hero h1,
+main h1 {
+  letter-spacing: -0.065em;
+  text-wrap: balance;
+}
+
+.eos-hero p,
+.hero p,
+.landing-hero p,
+main header p {
+  text-wrap: pretty;
+}
+
+/* Premium panels */
+.eos-panel,
+.panel,
+.card,
+[class*="rounded-[2rem]"][class*="border"],
+[class*="rounded-[1.5rem]"][class*="border"] {
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.24);
+}
+
+/* Make glass surfaces more consistent */
+[class*="bg-white/[0.035]"],
+[class*="bg-white/[0.04]"],
+[class*="bg-white/[0.045]"] {
+  backdrop-filter: blur(18px);
+}
+
+/* True CTA buttons stay horizontal and readable */
+.eos-button,
+button.eos-button,
+button[class*="bg-cyan-300"],
+button[class*="bg-white"],
+button[class*="bg-emerald"],
+button[class*="bg-fuchsia"],
+button[class*="bg-violet"],
+button[class*="border"][class*="px-"],
+a[class*="rounded"][class*="px-"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: auto;
+  min-width: max-content !important;
+  max-width: 100%;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  line-height: 1.1 !important;
+}
+
+/* Large navigation/card buttons should stack vertically, not inline */
+.eos-action-card,
+.eos-home-card,
+.eos-feature-card,
+.eos-tool-card,
+.eos-mission-card,
+button.eos-action-card,
+button.eos-home-card,
+button.eos-feature-card,
+button.eos-tool-card,
+button.eos-mission-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  min-height: 230px !important;
+  padding: clamp(1.1rem, 2vw, 1.55rem) !important;
+  text-align: center !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  border-radius: var(--eos-radius-2xl) !important;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.eos-action-card::before,
+.eos-home-card::before,
+.eos-feature-card::before,
+.eos-tool-card::before,
+.eos-mission-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.13), transparent 32%),
+    linear-gradient(135deg, rgba(255,255,255,0.06), transparent 40%, rgba(167,139,250,0.08));
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.eos-action-card:hover,
+.eos-home-card:hover,
+.eos-feature-card:hover,
+.eos-tool-card:hover,
+.eos-mission-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(103, 232, 249, 0.45) !important;
+  box-shadow: 0 30px 90px rgba(8, 145, 178, 0.18), 0 20px 80px rgba(0,0,0,.28);
+}
+
+.eos-card-icon,
+.eos-action-card svg,
+.eos-home-card svg,
+.eos-feature-card svg,
+.eos-tool-card svg,
+.eos-mission-card svg {
+  flex: 0 0 auto !important;
+}
+
+.eos-card-title,
+.eos-action-card-title,
+.eos-home-card-title,
+.eos-feature-title,
+.eos-tool-title,
+.eos-mission-title {
+  display: block;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.1rem, 1.4vw, 1.45rem);
+  line-height: 1.05;
+  font-weight: 950;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  white-space: normal !important;
+}
+
+.eos-card-description,
+.eos-action-card-description,
+.eos-home-card-description,
+.eos-feature-description,
+.eos-tool-description,
+.eos-mission-description {
+  display: block;
+  max-width: 24rem;
+  margin: 0 auto;
+  color: #cbd5e1;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+  white-space: normal !important;
+}
+
+/* Generic fix for the most common old homepage card pattern:
+   a large rounded button containing icon + title + paragraph */
+main button[class*="rounded-[1.5rem]"]:has(p),
+main button[class*="rounded-[2rem]"]:has(p),
+main button[class*="rounded-2xl"]:has(p) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.9rem !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  white-space: normal !important;
+  text-align: center !important;
+}
+
+main button[class*="rounded-[1.5rem]"]:has(p) p,
+main button[class*="rounded-[2rem]"]:has(p) p,
+main button[class*="rounded-2xl"]:has(p) p {
+  white-space: normal !important;
+  text-align: center !important;
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keep text spans inside buttons sensible */
+button span,
+button div,
+button p,
+button strong,
+button small {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+button p {
+  white-space: normal !important;
+}
+
+/* Feature grids */
+.eos-feature-grid,
+.eos-home-grid,
+.eos-tool-grid,
+.eos-dashboard-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
+  gap: clamp(0.9rem, 1.5vw, 1.25rem) !important;
+  align-items: stretch !important;
+}
+
+/* Better page spacing */
+main {
+  overflow-x: clip;
+}
+
+main > div,
+.eos-page-stage,
+.eos-scroll-root {
+  scroll-margin-top: 1rem;
+}
+
+/* Make metrics/pills more premium */
+[class*="uppercase"][class*="tracking"] {
+  letter-spacing: 0.18em;
+}
+
+/* Prevent accidental microscopic columns */
+.grid,
+[class*="grid-cols"] {
+  min-width: 0;
+}
+
+.grid > *,
+[class*="grid-cols"] > * {
+  min-width: 0;
+}
+
+/* Mobile: cards become comfortable, not cramped */
+@media (max-width: 768px) {
+  main {
+    padding-left: max(0.85rem, env(safe-area-inset-left));
+    padding-right: max(0.85rem, env(safe-area-inset-right));
+  }
+
+  main h1 {
+    font-size: clamp(2.3rem, 13vw, 4.4rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  .eos-action-card,
+  .eos-home-card,
+  .eos-feature-card,
+  .eos-tool-card,
+  .eos-mission-card,
+  button.eos-action-card,
+  button.eos-home-card,
+  button.eos-feature-card,
+  button.eos-tool-card,
+  button.eos-mission-card {
+    min-height: 205px !important;
+    padding: 1.1rem !important;
+  }
+
+  .eos-button,
+  button.eos-button,
+  button[class*="bg-cyan-300"],
+  button[class*="bg-white"],
+  button[class*="border"][class*="px-"] {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Mobile nav should never verticalize */
+nav button,
+aside button {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+/* But page cards with descriptions should remain card-like */
+main button:has(p) {
+  white-space: normal !important;
+}
+
+/* Premium focus ring */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.9);
+  outline-offset: 3px;
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+

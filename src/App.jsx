@@ -809,7 +809,7 @@ function DiscoveryOSFeed({ discoveries = [], setPage, setPublicDiscovery }) {
           <button
             key={item.dna}
             onClick={() => { setPublicDiscovery?.(item); setPage?.("publicdiscovery"); }}
-            className="rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/5 p-5 text-left transition hover:-translate-y-1 hover:border-cyan-300/45 hover:bg-cyan-300/10"
+            className="eos-feature-card rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/5 p-5 text-center transition hover:-translate-y-1 hover:border-cyan-300/45 hover:bg-cyan-300/10"
           >
             <div className="text-xs uppercase tracking-[.22em] text-slate-500">{item.tier}</div>
             <div className="mt-2 text-3xl font-black text-cyan-100">{item.a} + {item.b}</div>
@@ -857,10 +857,10 @@ function CoreLoopPanel({ setPage }) {
       </div>
       <div className="mt-6 grid gap-3 md:grid-cols-4">
         {steps.map(([num, title, body, target]) => (
-          <button key={title} onClick={() => setPage?.(target)} className="rounded-2xl border border-white/10 bg-black/20 p-4 text-left transition hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-cyan-300/10">
+          <button key={title} onClick={() => setPage?.(target)} className="eos-action-card rounded-2xl border border-white/10 bg-black/20 p-4 text-center transition hover:-translate-y-1 hover:border-cyan-300/40 hover:bg-cyan-300/10">
             <div className="text-xs font-black text-cyan-200">{num}</div>
-            <div className="mt-2 text-lg font-black text-white">{title}</div>
-            <div className="mt-2 text-xs leading-5 text-slate-400">{body}</div>
+            <div className="eos-card-title mt-2 text-lg font-black text-white">{title}</div>
+            <div className="eos-card-description mt-2 text-xs leading-5 text-slate-400">{body}</div>
           </button>
         ))}
       </div>
@@ -1392,7 +1392,7 @@ function MatterIntelligenceLab() {
           {pipeline.map(([step, title, body]) => (
             <div key={title} className="rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/5 p-4">
               <div className="text-xs font-black text-cyan-200">{step}</div>
-              <div className="mt-2 text-lg font-black text-white">{title}</div>
+              <div className="eos-card-title mt-2 text-lg font-black text-white">{title}</div>
               <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
             </div>
           ))}
@@ -2884,7 +2884,7 @@ function V155AdvisorMiniBar({ selected, setSelected, setCompare, setPage, setFor
     <div className="rounded-[1.25rem] border border-cyan-300/15 bg-cyan-300/[0.055] p-3">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
         <div className="shrink-0 text-xs font-black uppercase tracking-[.2em] text-cyan-200">Ask Material Advisor</div>
-        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="What material should I use?" className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-sm font-bold text-white outline-none placeholder:text-slate-600" />
+        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="What material should I use?" className="min-w-fit flex-1 rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-sm font-bold text-white outline-none placeholder:text-slate-600" />
         <Button onClick={analyze} variant="primary" className="shrink-0">Analyze</Button>
       </div>
     </div>
@@ -7561,7 +7561,7 @@ function ElementPicture({ el, compact = false }) {
       </div>
       <div className="border-t border-white/10 bg-slate-950/80 p-4 sm:p-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
-          <div className="min-w-0">
+          <div className="min-w-fit">
             <div className="truncate text-2xl font-black text-white sm:text-3xl">
               {safe.name} <span className="text-cyan-100">{safe.symbol}</span>
             </div>
@@ -8972,7 +8972,7 @@ function Explorer({ selected, setSelected, setCompare, setPage, setForecastReque
                   <div key={`${year}-${label}`} className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
                     <div className="text-2xl font-black text-cyan-100">{year}</div>
                     <div className="mt-2 text-sm font-black text-white">{label}</div>
-                    <div className="mt-2 text-xs leading-5 text-slate-400">{body}</div>
+                    <div className="eos-card-description mt-2 text-xs leading-5 text-slate-400">{body}</div>
                   </div>
                 ))}
               </div>
@@ -9541,7 +9541,7 @@ function PeriodicTable({ selected, setSelected }) {
             <div className="text-[clamp(7px,.5vw,10px)] font-black uppercase tracking-[.12em] text-slate-600">{pct}</div>
             <div className="mt-0.5 text-[clamp(18px,1.65vw,32px)] font-black tracking-[-.08em] text-white">{el.symbol}</div>
           </div>
-          <div className="min-w-0 truncate text-[clamp(8px,.62vw,11px)] font-semibold text-slate-400 group-hover:text-slate-200">{el.name}</div>
+          <div className="min-w-fit truncate text-[clamp(8px,.62vw,11px)] font-semibold text-slate-400 group-hover:text-slate-200">{el.name}</div>
         </div>
       </button>
     );
@@ -9581,7 +9581,7 @@ function PeriodicTable({ selected, setSelected }) {
         </div>
 
         <div className="grid min-h-[calc(100vh-235px)] 2xl:grid-cols-[minmax(0,1fr)_380px]">
-          <main className="flex min-w-0 flex-col 2xl:border-r 2xl:border-white/10">
+          <main className="flex min-w-fit flex-col 2xl:border-r 2xl:border-white/10">
             <div className="sticky top-0 z-20 border-b border-white/10 bg-slate-950/[.95] p-3 md:p-4 backdrop-blur-xl">
               <div className="grid gap-3 lg:grid-cols-[1fr_190px_190px]">
                 <div className="flex items-center gap-3 rounded-[14px] border border-white/10 bg-black/30 px-4 py-3 focus-within:border-cyan-300/[.35]">
@@ -11355,7 +11355,7 @@ function V211ReportPipelineDock({ page, selected, compare, setPage }) {
   return (
     <div className="rounded-[1.25rem] border border-cyan-300/[.12] bg-[#050b16]/88 p-3 shadow-[0_18px_60px_rgba(0,0,0,.22)] backdrop-blur-xl">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <div className="min-w-0">
+        <div className="min-w-fit">
           <div className="text-[10px] font-black uppercase tracking-[.24em] text-cyan-200">Report pipeline · {intent.sourceLabel}</div>
           <div className="mt-1 text-sm leading-6 text-slate-300">
             Turn this page into a <b className="text-white">{intent.title}</b> for {intent.selectedName} / {intent.compareSet}.
@@ -14765,7 +14765,7 @@ function LandingPage({ setPage, session, isPro, startCheckout }) {
           ].map(([step, title, body]) => (
             <button key={title} type="button" onClick={() => setPage(step === "01" ? "explorer" : step === "02" ? "compare" : step === "03" ? "discover" : "simreports")} className="rounded-[1.5rem] border border-white/10 bg-black/25 p-4 text-left transition hover:-translate-y-1 hover:border-cyan-300/[.35] hover:bg-cyan-300/10">
               <div className="text-xs font-black text-cyan-200">{step}</div>
-              <div className="mt-2 text-lg font-black text-white">{title}</div>
+              <div className="eos-card-title mt-2 text-lg font-black text-white">{title}</div>
               <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
             </button>
           ))}
@@ -16093,7 +16093,7 @@ Generated in ElementOS.`,
           {abVariants.map(([label, title, text, bestFor]) => (
             <div key={label} className="rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
               <div className="text-xs uppercase tracking-[.22em] text-amber-100">Variant {label}</div>
-              <div className="mt-2 text-lg font-black text-white">{title}</div>
+              <div className="eos-card-title mt-2 text-lg font-black text-white">{title}</div>
               <p className="mt-3 text-sm leading-6 text-slate-300">{text}</p>
               <div className="mt-4 rounded-2xl border border-cyan-300/15 bg-cyan-300/10 p-3 text-xs font-bold text-cyan-100">{bestFor}</div>
             </div>
@@ -17249,7 +17249,7 @@ function ToastCenter() {
 function ElementOSTopBar({ page, setPage, setCommandOpen, session, isPro, startCheckout, setSupportOpen, plan = "Explorer" }) {
   return (
     <div className="eos-topbar sticky top-4 z-20 mb-6 hidden items-center justify-between gap-4 rounded-2xl px-4 py-3 backdrop-blur-2xl lg:flex">
-      <div className="flex min-w-0 items-center gap-3">
+      <div className="flex min-w-fit items-center gap-3">
         <div className="rounded-xl border border-blue-400/25 bg-blue-500/10 px-3 py-2 text-xs font-black uppercase tracking-[.22em] text-cyan-100">
           {pageLabel(page)}
         </div>
