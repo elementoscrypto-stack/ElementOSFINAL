@@ -1053,8 +1053,8 @@ function MISidebar({ active, setActive }) {
   ];
 
   return (
-    <aside className="rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 shadow-2xl shadow-black/30 lg:sticky lg:top-8 lg:h-[calc(100vh-4rem)]">
-      <div className="mb-8 flex items-center gap-3">
+    <aside className="eos-v306-sidebar rounded-[2rem] border border-white/10 bg-white/[0.035] p-4 shadow-2xl shadow-black/30 lg:sticky lg:top-8 lg:h-[calc(100vh-4rem)]">
+      <div className="eos-v306-brand mb-8 flex items-center gap-3">
         <div className="rounded-2xl bg-cyan-300 p-3 text-slate-950"><Atom size={24} /></div>
         <div>
           <div className="text-lg font-black">M.I.OS</div>
@@ -18563,6 +18563,7 @@ function V305CinematicHomepage({ setPage, session, isPro, startCheckout }) {
 
   return (
     <div className="eos-v305-homepage">
+      <div className="eos-v306-molecule" aria-hidden="true" />
       <section className="eos-v305-hero">
         <div className="eos-v305-hero-copy">
           <div className="eos-v305-kicker"><Sparkles size={14} /> MATERIAL INTELLIGENCE OS</div>

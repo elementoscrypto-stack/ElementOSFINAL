@@ -1182,3 +1182,265 @@ textarea:focus-visible {
   .eos-v305-section-head { flex-direction: column; }
 }
 
+
+/* =========================================================
+   ELEMENTOS V306 HOMEPAGE + SIDEBAR CINEMATIC THEME
+   Visual-only upgrade. Keeps all functions/pages intact.
+   ========================================================= */
+
+:root {
+  --v306-glass: rgba(8, 17, 34, 0.78);
+  --v306-border: rgba(125, 211, 252, 0.18);
+  --v306-border-strong: rgba(125, 211, 252, 0.42);
+  --v306-cyan: #67e8f9;
+  --v306-blue: #60a5fa;
+  --v306-purple: #a78bfa;
+  --v306-pink: #f0abfc;
+  --v306-emerald: #6ee7b7;
+}
+
+/* Richer homepage atmosphere */
+.v306-homepage,
+.v305-homepage {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(96, 165, 250, 0.22), transparent 31%),
+    radial-gradient(circle at 55% 42%, rgba(167, 139, 250, 0.15), transparent 32%),
+    radial-gradient(circle at 18% 12%, rgba(34, 211, 238, 0.12), transparent 28%),
+    linear-gradient(135deg, #020617 0%, #07111f 48%, #020617 100%);
+}
+
+.v306-homepage::before,
+.v305-homepage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(125, 211, 252, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 62% 20%, black 0%, transparent 72%);
+  opacity: 0.65;
+}
+
+.v306-homepage::after,
+.v305-homepage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 22%, rgba(103, 232, 249, 0.24), transparent 7%),
+    radial-gradient(circle at 72% 30%, rgba(167, 139, 250, 0.22), transparent 8%),
+    radial-gradient(circle at 90% 36%, rgba(96, 165, 250, 0.16), transparent 6%),
+    linear-gradient(to bottom, transparent 0%, rgba(2, 6, 23, 0.45) 72%, rgba(2, 6, 23, 0.94) 100%);
+}
+
+.v306-homepage h1,
+.v305-homepage h1 {
+  text-shadow: 0 0 42px rgba(96, 165, 250, 0.22);
+}
+
+.v306-homepage h1 span,
+.v305-homepage h1 span {
+  background: linear-gradient(90deg, #f8fafc, #93c5fd 28%, #a78bfa 62%, #f0abfc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Decorative molecule mesh layer */
+.v306-homepage .eos-v306-molecule,
+.v305-homepage .eos-v306-molecule {
+  position: absolute;
+  right: min(5vw, 72px);
+  top: 90px;
+  width: min(42vw, 620px);
+  aspect-ratio: 1.25;
+  pointer-events: none;
+  opacity: 0.88;
+  filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.22));
+}
+
+.v306-homepage .eos-v306-molecule::before,
+.v305-homepage .eos-v306-molecule::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 22% 48%, rgba(103,232,249,.95) 0 10px, transparent 12px),
+    radial-gradient(circle at 46% 26%, rgba(147,197,253,.95) 0 16px, transparent 18px),
+    radial-gradient(circle at 58% 58%, rgba(167,139,250,.96) 0 19px, transparent 22px),
+    radial-gradient(circle at 78% 34%, rgba(103,232,249,.92) 0 11px, transparent 13px),
+    radial-gradient(circle at 86% 72%, rgba(167,139,250,.85) 0 14px, transparent 17px),
+    linear-gradient(32deg, transparent 0 31%, rgba(96,165,250,.38) 31.3% 32%, transparent 32.4%),
+    linear-gradient(143deg, transparent 0 41%, rgba(103,232,249,.30) 41.3% 42%, transparent 42.4%),
+    linear-gradient(92deg, transparent 0 52%, rgba(167,139,250,.34) 52.3% 53%, transparent 53.4%),
+    radial-gradient(circle at 50% 50%, rgba(96,165,250,.10), transparent 48%);
+  animation: eosV306Float 9s ease-in-out infinite;
+}
+
+@keyframes eosV306Float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -12px, 0) scale(1.015); }
+}
+
+/* Better homepage cards */
+.v306-homepage .eos-feature-card,
+.v306-homepage .eos-action-card,
+.v306-homepage button:has(p),
+.v305-homepage .eos-feature-card,
+.v305-homepage .eos-action-card,
+.v305-homepage button:has(p) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.12), transparent 34%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.82), rgba(2, 6, 23, 0.74)) !important;
+  border: 1px solid rgba(125, 211, 252, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 18px 60px rgba(0,0,0,.28);
+  backdrop-filter: blur(22px);
+}
+
+.v306-homepage .eos-feature-card:hover,
+.v306-homepage .eos-action-card:hover,
+.v306-homepage button:has(p):hover,
+.v305-homepage .eos-feature-card:hover,
+.v305-homepage .eos-action-card:hover,
+.v305-homepage button:has(p):hover {
+  border-color: rgba(103, 232, 249, 0.55) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.1),
+    0 0 0 1px rgba(103,232,249,.12),
+    0 32px 110px rgba(8,145,178,.22),
+    0 18px 70px rgba(0,0,0,.32);
+}
+
+/* Cinematic sidebar theme */
+.eos-v306-sidebar,
+aside,
+[class*="sidebar"] {
+  background:
+    radial-gradient(circle at 40% 0%, rgba(59, 130, 246, 0.16), transparent 31%),
+    radial-gradient(circle at 0% 40%, rgba(103, 232, 249, 0.10), transparent 28%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.96), rgba(8, 17, 34, 0.90) 62%, rgba(2, 6, 23, 0.98)) !important;
+  border-color: rgba(125, 211, 252, 0.16) !important;
+  box-shadow:
+    inset -1px 0 0 rgba(125, 211, 252, 0.12),
+    18px 0 80px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(24px);
+}
+
+.eos-v306-sidebar::before,
+aside::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(125, 211, 252, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 84%);
+  opacity: 0.36;
+}
+
+.eos-v306-brand,
+aside > div:first-child {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.eos-v306-brand::after,
+aside > div:first-child::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.38), transparent);
+}
+
+aside button,
+.eos-v306-sidebar button,
+[class*="sidebar"] button {
+  position: relative;
+  border: 1px solid transparent !important;
+  border-radius: 1rem !important;
+  transition: transform .18s ease, background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+aside button:hover,
+.eos-v306-sidebar button:hover,
+[class*="sidebar"] button:hover {
+  transform: translateX(3px);
+  border-color: rgba(103, 232, 249, 0.24) !important;
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.16), rgba(99, 102, 241, 0.08)) !important;
+  box-shadow: 0 12px 34px rgba(8, 145, 178, 0.14);
+}
+
+aside button[class*="bg-cyan"],
+aside button[class*="bg-white"],
+aside button[class*="active"],
+.eos-v306-sidebar button[class*="bg-cyan"],
+.eos-v306-sidebar button[class*="bg-white"],
+.eos-v306-sidebar button[class*="active"] {
+  border-color: rgba(103, 232, 249, 0.42) !important;
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.28), rgba(99, 102, 241, 0.16)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 16px 42px rgba(8, 145, 178, 0.20);
+}
+
+aside [class*="uppercase"],
+.eos-v306-sidebar [class*="uppercase"],
+[class*="sidebar"] [class*="uppercase"] {
+  color: rgba(186, 230, 253, 0.78) !important;
+}
+
+/* Search bar / input glow */
+input[type="search"],
+input[placeholder*="Search"],
+input[placeholder*="search"] {
+  background: rgba(2, 6, 23, 0.58) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+input[type="search"]:focus,
+input[placeholder*="Search"]:focus,
+input[placeholder*="search"]:focus {
+  border-color: rgba(103, 232, 249, 0.48) !important;
+  box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.12);
+}
+
+@media (min-width: 1024px) {
+  .v306-homepage .eos-feature-card,
+  .v306-homepage .eos-action-card,
+  .v305-homepage .eos-feature-card,
+  .v305-homepage .eos-action-card {
+    min-height: 245px !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .v306-homepage .eos-v306-molecule,
+  .v305-homepage .eos-v306-molecule {
+    display: none;
+  }
+
+  .eos-v306-sidebar,
+  aside,
+  [class*="sidebar"] {
+    box-shadow: none;
+  }
+}
+
