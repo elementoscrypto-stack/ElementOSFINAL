@@ -8656,7 +8656,7 @@ function Explorer({ selected, setSelected, setCompare, setPage, setForecastReque
       </Panel>
 
       <div className="grid gap-8 xl:grid-cols-[380px_1fr] 2xl:grid-cols-[420px_1fr]">
-        <Panel className="eos-explorer-list-frame xl:sticky xl:top-4 xl:self-start">
+        <Panel className="eos-explorer-list-frame eos-v403-element-index xl:sticky xl:top-24 xl:self-start">
           <div className="mb-4 flex items-center justify-between gap-3 border-b border-white/10 pb-4">
             <div>
               <div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">element index</div>
@@ -8666,7 +8666,7 @@ function Explorer({ selected, setSelected, setCompare, setPage, setForecastReque
           </div>
           <div className="max-h-[calc(min(78vh,880px)-110px)] overflow-auto pr-2">
             {filtered.map(e => (
-              <button key={e.symbol} onClick={() => chooseElement(e.symbol)} className={`mb-2 grid w-full grid-cols-[56px_1fr] gap-3 rounded-2xl border p-3 text-left transition ${e.symbol === el.symbol ? "border-cyan-300/40 bg-cyan-300/10" : "border-white/10 bg-black/20 hover:bg-white/[0.05]"}`}>
+              <button key={e.symbol} onClick={() => chooseElement(e.symbol)} className={`mb-2 grid w-full grid-cols-[56px_1fr] gap-3 rounded-2xl border p-3 text-left transition ${e.symbol === el.symbol ? "border-cyan-300/30 bg-slate-950/70 ring-1 ring-cyan-300/15" : "border-white/10 bg-black/20 hover:bg-white/[0.05]"}`}>
                 <ElementPicture el={e} compact />
                 <div>
                   <div className="font-black text-white">{e.name}</div>
@@ -18626,11 +18626,11 @@ function V305CinematicHomepage({ setPage, session, isPro, startCheckout }) {
             {commandCards.map((card) => {
               const Icon = card.icon;
               return (
-                <button type="button" key={card.id} onClick={() => setPage(card.id)} className={`eos-v305-command-card ${card.accent}`}>
-                  <span className="eos-v305-command-icon"><Icon size={26} /></span>
+                <button type="button" key={card.id} onClick={() => setPage(card.id)} className={`eos-v305-command-card eos-v403-command-card ${card.accent}`}>
+                  <span className="eos-v305-command-icon eos-v403-command-icon"><Icon size={26} /></span>
                   <strong>{card.title}</strong>
                   <p>{card.description}</p>
-                  <span className="eos-v305-launch">Launch <ChevronRight size={14} /></span>
+                  <span className="eos-v305-launch eos-v403-launch">Launch <ChevronRight size={14} /></span>
                 </button>
               );
             })}
