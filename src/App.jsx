@@ -2418,11 +2418,42 @@ function V240ResearchCentreUpgradePanel({ compare = [], selected = "Ti", isPro, 
 
 function LuxuryActionCard({ title, body, icon: Icon = Sparkles, onClick, primary = false }) {
   return (
-    <button onClick={onClick} className={`group rounded-[1.65rem] border p-5 text-left transition duration-300 hover:-translate-y-1 ${primary ? "border-cyan-300/[.35] bg-cyan-300/10 shadow-[0_0_42px_rgba(34,211,238,.12)]" : "border-white/10 bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.06]"}`}>
-      <div className={`grid h-12 w-12 place-items-center rounded-2xl ${primary ? "bg-cyan-300 text-slate-950" : "border border-white/10 bg-black/25 text-cyan-100"}`}><Icon size={20}/></div>
-      <div className="mt-5 text-xl font-black text-white">{title}</div>
-      <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
-      <div className="mt-4 text-xs font-black uppercase tracking-[.22em] text-cyan-200 opacity-70 transition group-hover:opacity-100">Open workflow →</div>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`eos-action-card-v300 group relative flex min-h-[272px] w-full flex-col items-center justify-between overflow-hidden rounded-[2rem] border p-6 text-center transition duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-cyan-300/50 ${
+        primary
+          ? "border-cyan-300/45 bg-gradient-to-br from-cyan-300/16 via-slate-950/72 to-blue-500/10 shadow-[0_0_70px_rgba(34,211,238,.18)]"
+          : "border-white/10 bg-white/[0.035] shadow-[inset_0_1px_0_rgba(255,255,255,.05)] hover:border-cyan-300/30 hover:bg-cyan-300/[0.055] hover:shadow-[0_0_60px_rgba(34,211,238,.12)]"
+      }`}
+      data-eos-card="action"
+    >
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
+        <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-cyan-300/10 blur-3xl" />
+        <div className="absolute -bottom-12 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 flex flex-col items-center">
+        <div className={`grid h-16 w-16 place-items-center rounded-[1.35rem] shadow-[0_0_36px_rgba(34,211,238,.16)] ${
+          primary
+            ? "bg-cyan-300 text-slate-950"
+            : "border border-cyan-300/20 bg-slate-950/70 text-cyan-100"
+        }`}>
+          <Icon size={26} />
+        </div>
+
+        <div className="mt-5 max-w-full text-balance text-2xl font-black leading-tight tracking-tight text-white">
+          {title}
+        </div>
+
+        <p className="mx-auto mt-3 max-w-[24rem] text-pretty text-sm leading-6 text-slate-300">
+          {body}
+        </p>
+      </div>
+
+      <div className="relative z-10 mt-6 inline-flex items-center justify-center rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-xs font-black uppercase tracking-[.2em] text-cyan-100 transition group-hover:border-cyan-200/60 group-hover:bg-cyan-300/20 group-hover:text-white">
+        Launch →
+      </div>
     </button>
   );
 }

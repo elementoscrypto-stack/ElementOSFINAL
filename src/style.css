@@ -6,59 +6,89 @@
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color-scheme: dark;
 }
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; background: #020617; }
-button, input, select { font: inherit; }
+button, input, select, textarea { font: inherit; }
+
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: rgba(15,23,42,.6); }
 ::-webkit-scrollbar-thumb { background: rgba(34,211,238,.35); border-radius: 999px; }
 
 /* =========================================================
-   ElementOS Global Button + Text Wrapping Stability Patch
-   Fixes buttons rendering vertically when containers get narrow.
-   Keep this block near the bottom of style.css so it overrides
-   earlier Tailwind/component styles.
+   ElementOS V300 UI Stabilizer
+   - Fixes homepage card overlap
+   - Keeps normal CTA buttons horizontal
+   - Allows card titles/descriptions to stack vertically
+   - Improves mobile layout without breaking Tailwind styling
    ========================================================= */
 
-/* Stop button labels from breaking into vertical letters */
-button,
+/* Real CTA buttons from the App.jsx Button component */
+.eos-button,
+button[data-eos-control="button"],
 .button,
 .btn,
-[role="button"],
-a.button,
-a.btn {
-  white-space: nowrap;
-  word-break: normal;
-  overflow-wrap: normal;
-  line-break: auto;
-}
-
-/* Make normal buttons size around their content instead of crushing text */
-button:not(.mobile):not(.mobile-nav button):not([aria-label]),
-.button,
-.btn,
-[role="button"],
 a.button,
 a.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  min-width: max-content;
   max-width: 100%;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
   text-align: center;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
 }
 
-/* Prevent SVG/icons inside buttons from shrinking and stealing text room */
-button svg,
+.eos-button svg,
+button[data-eos-control="button"] svg,
 .button svg,
-.btn svg,
-[role="button"] svg {
+.btn svg {
   flex: 0 0 auto;
 }
 
-/* Let button rows wrap between buttons, not inside the button words */
+/* Homepage / dashboard action cards: vertical layout, never inline-crushed */
+.eos-action-card-v300,
+button[data-eos-card="action"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  text-align: center !important;
+  isolation: isolate;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+.eos-action-card-v300 *,
+button[data-eos-card="action"] * {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: normal;
+  text-align: center;
+}
+
+.eos-action-card-v300 svg,
+button[data-eos-card="action"] svg {
+  flex: 0 0 auto;
+}
+
+/* Premium balanced text rendering where supported */
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* Button rows wrap between buttons, not inside button labels */
 .hero-actions,
 .button-row,
 .cta-row,
@@ -77,55 +107,43 @@ button svg,
   align-items: center;
 }
 
-/* Common Tailwind button layouts inside flex/grid containers */
-.flex > button,
-.flex > .button,
-.flex > [role="button"] {
-  flex-shrink: 0;
+/* Dashboard action card grid breathing room */
+.eos-card-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
-/* Prevent narrow grid/card layouts from squeezing buttons into letter columns */
-.grid button,
-.grid .button,
-.grid [role="button"] {
-  min-width: fit-content;
+@media (max-width: 1280px) {
+  .eos-card-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Keep CTA buttons readable on small screens */
-@media (max-width: 640px) {
-  button:not(.mobile):not(.mobile-nav button):not([aria-label]),
+@media (max-width: 700px) {
+  .eos-card-grid-4 { grid-template-columns: 1fr; }
+
+  .eos-action-card-v300,
+  button[data-eos-card="action"] {
+    min-height: 230px !important;
+    padding: 1.25rem !important;
+  }
+
+  .eos-button,
+  button[data-eos-control="button"],
   .button,
-  .btn,
-  [role="button"],
-  a.button,
-  a.btn {
-    min-width: fit-content;
-    max-width: 100%;
-  }
-
-  .hero-actions,
-  .button-row,
-  .cta-row,
-  .action-row,
-  .actions,
-  .card-actions,
-  .eos-actions,
-  .eos-button-row,
-  .eos-hero-actions,
-  .eos-cta-row,
-  .eos-toolbar,
-  .toolbar {
-    width: 100%;
+  .btn {
+    min-width: 0;
   }
 }
 
-/* Mobile bottom nav is allowed to be compact, but labels must stay horizontal */
+/* Mobile nav can be compact, but labels must stay horizontal */
 .mobile-nav button,
 .mobile {
   min-width: 0;
   white-space: nowrap;
   word-break: normal;
   overflow-wrap: normal;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
 }
 
 .mobile-nav button span,
@@ -137,48 +155,24 @@ button svg,
   overflow-wrap: normal;
 }
 
-/* If any button was accidentally given break-all/break-words via utility stacking,
-   this forcefully restores sane label behaviour. */
-button *,
-.button *,
-.btn *,
-[role="button"] * {
-  word-break: normal;
-  overflow-wrap: normal;
-}
-
-/* Keep long labels readable instead of vertical. They may truncate only if truly needed. */
-button .truncate,
-.button .truncate,
-.btn .truncate,
-[role="button"] .truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Safer default for anchors styled like buttons */
-a[class*="rounded"][class*="px-"],
-a[class*="bg-"][class*="px-"] {
-  white-space: nowrap;
-  word-break: normal;
-  overflow-wrap: normal;
-}
-
-/* Homepage / landing CTA safety for text like Compare, Discover, Run Simulation */
-main button,
-main [role="button"],
-main a[class*="rounded"] {
-  writing-mode: horizontal-tb;
-  text-orientation: mixed;
-}
-
-/* Emergency override for any accidental vertical writing mode */
+/* Prevent accidental vertical text anywhere on controls */
 button,
-.button,
-.btn,
-[role="button"] {
+[role="button"],
+a[class*="rounded"][class*="px-"] {
   writing-mode: horizontal-tb !important;
   text-orientation: mixed !important;
 }
 
+/* But do not force all buttons into horizontal flex; some are entire cards. */
+button:not(.eos-action-card-v300):not([data-eos-card="action"]) {
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* If a tiny card still has a long CTA, truncate the CTA pill, not the card body. */
+.eos-button .truncate,
+button[data-eos-control="button"] .truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
