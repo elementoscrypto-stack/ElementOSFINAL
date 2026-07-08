@@ -2374,3 +2374,978 @@ textarea:focus-visible {
   }
 }
 
+
+/* =========================================================
+   ELEMENTOS V400 SAFE FULL-SITE VISUAL REFACTOR
+   CSS-only visual system. No React logic changes.
+   Goal: make every page feel like the cinematic homepage.
+   ========================================================= */
+
+:root {
+  --eos400-bg: #020617;
+  --eos400-panel: rgba(8, 17, 34, 0.78);
+  --eos400-panel-soft: rgba(15, 23, 42, 0.66);
+  --eos400-border: rgba(125, 211, 252, 0.18);
+  --eos400-border-hot: rgba(103, 232, 249, 0.48);
+  --eos400-cyan: #67e8f9;
+  --eos400-blue: #60a5fa;
+  --eos400-violet: #a78bfa;
+  --eos400-pink: #f0abfc;
+  --eos400-emerald: #6ee7b7;
+  --eos400-amber: #fcd34d;
+  --eos400-text: #f8fafc;
+  --eos400-muted: rgba(203, 213, 225, 0.78);
+  --eos400-faint: rgba(148, 163, 184, 0.72);
+  --eos400-glow: 0 0 0 1px rgba(103, 232, 249, 0.10), 0 28px 90px rgba(14, 165, 233, 0.16);
+  --eos400-shadow: 0 24px 90px rgba(0, 0, 0, 0.32);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(34, 211, 238, 0.14), transparent 27%),
+    radial-gradient(circle at 82% 10%, rgba(167, 139, 250, 0.13), transparent 29%),
+    radial-gradient(circle at 52% 92%, rgba(96, 165, 250, 0.09), transparent 32%),
+    linear-gradient(135deg, #020617 0%, #07111f 48%, #020617 100%) !important;
+}
+
+body {
+  color: var(--eos400-text);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -30;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(125, 211, 252, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 52% 8%, black 0%, transparent 78%);
+  opacity: 0.58;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -29;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 22%, rgba(103, 232, 249, 0.14), transparent 10%),
+    radial-gradient(circle at 73% 36%, rgba(167, 139, 250, 0.11), transparent 12%),
+    linear-gradient(to bottom, rgba(2,6,23,0.06), rgba(2,6,23,0.70));
+}
+
+main,
+.eos-page-stage,
+.eos-scroll-root,
+[class*="page"],
+[class*="Page"] {
+  position: relative;
+  isolation: isolate;
+}
+
+main {
+  overflow-x: clip;
+}
+
+main h1,
+main h2,
+main h3 {
+  text-wrap: balance;
+  color: #fff;
+}
+
+main h1 {
+  letter-spacing: -0.065em;
+  text-shadow: 0 0 46px rgba(96, 165, 250, 0.18);
+}
+
+main h2 {
+  letter-spacing: -0.045em;
+}
+
+main h3 {
+  letter-spacing: -0.025em;
+}
+
+main p,
+main li {
+  text-wrap: pretty;
+}
+
+[class*="text-slate-300"] { color: rgba(226, 232, 240, 0.88) !important; }
+[class*="text-slate-400"] { color: var(--eos400-muted) !important; }
+[class*="text-slate-500"] { color: var(--eos400-faint) !important; }
+[class*="text-cyan"], [class*="text-sky"] { color: var(--eos400-cyan) !important; }
+[class*="text-emerald"] { color: var(--eos400-emerald) !important; }
+[class*="text-amber"], [class*="text-yellow"] { color: var(--eos400-amber) !important; }
+
+[class*="uppercase"][class*="tracking"] {
+  letter-spacing: 0.18em;
+}
+
+/* Universal cinematic panels/cards */
+section[class*="rounded"],
+article[class*="rounded"],
+div[class*="rounded-[2rem]"][class*="border"],
+div[class*="rounded-[1.5rem]"][class*="border"],
+div[class*="rounded-2xl"][class*="border"],
+div[class*="rounded-3xl"][class*="border"],
+.panel,
+.card,
+.eos-panel,
+[class*="Panel"] {
+  border-color: var(--eos400-border) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.075), transparent 32%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.80), rgba(2, 6, 23, 0.68)) !important;
+  backdrop-filter: blur(22px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.065),
+    0 22px 76px rgba(0,0,0,.24);
+}
+
+/* Preserve colour meaning while making panels match the homepage theme */
+[class*="bg-cyan-300/"],
+[class*="bg-sky-300/"],
+[class*="bg-blue-300/"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(14, 165, 233, 0.17), rgba(2, 6, 23, 0.66)) !important;
+}
+
+[class*="bg-purple"],
+[class*="bg-fuchsia"],
+[class*="bg-violet"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(167, 139, 250, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(99, 102, 241, 0.16), rgba(2, 6, 23, 0.68)) !important;
+}
+
+[class*="bg-emerald"],
+[class*="bg-green"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(110, 231, 183, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(16, 185, 129, 0.14), rgba(2, 6, 23, 0.68)) !important;
+}
+
+[class*="bg-amber"],
+[class*="bg-yellow"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(252, 211, 77, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(245, 158, 11, 0.14), rgba(2, 6, 23, 0.68)) !important;
+}
+
+/* Interactive card hover */
+main button[class*="rounded"]:hover,
+main a[class*="rounded"]:hover,
+main [role="button"][class*="rounded"]:hover {
+  border-color: var(--eos400-border-hot) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.10),
+    var(--eos400-glow);
+}
+
+/* Button safety: keep real CTAs horizontal */
+button,
+.button,
+.btn,
+[role="button"],
+a[class*="rounded"][class*="px-"] {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+button:not(:has(p)),
+.button,
+.btn,
+[role="button"]:not(:has(p)),
+a[class*="rounded"][class*="px-"] {
+  white-space: nowrap !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Big action cards with descriptions stay stacked */
+main button:has(p),
+.eos-action-card,
+.eos-feature-card,
+.eos-home-card,
+.eos-tool-card,
+.eos-mission-card,
+.eos-magic-tile,
+button[data-eos-card="action"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.9rem !important;
+  width: 100%;
+  min-width: 0 !important;
+  text-align: center !important;
+  white-space: normal !important;
+}
+
+main button:has(p) p,
+.eos-action-card p,
+.eos-feature-card p,
+.eos-home-card p,
+.eos-tool-card p,
+.eos-mission-card p,
+.eos-magic-tile p,
+button[data-eos-card="action"] p {
+  white-space: normal !important;
+  text-align: center;
+  max-width: 26rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Primary CTAs */
+button[class*="bg-cyan-300"],
+button[class*="bg-sky-300"],
+button[class*="bg-blue-300"],
+button[class*="bg-white"],
+.eos-button {
+  border: 1px solid rgba(103, 232, 249, 0.34) !important;
+  background:
+    linear-gradient(135deg, rgba(103,232,249,0.98), rgba(96,165,250,0.94) 45%, rgba(167,139,250,0.94)) !important;
+  color: #020617 !important;
+  box-shadow:
+    0 0 0 1px rgba(103,232,249,.10),
+    0 16px 48px rgba(37, 99, 235, 0.26);
+}
+
+button[class*="bg-cyan-300"]:hover,
+button[class*="bg-sky-300"]:hover,
+button[class*="bg-blue-300"]:hover,
+button[class*="bg-white"]:hover,
+.eos-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(103,232,249,.18),
+    0 24px 70px rgba(37, 99, 235, 0.34);
+}
+
+/* Ghost buttons */
+button[class*="border"][class*="px-"]:not([class*="bg-cyan"]):not([class*="bg-white"]),
+a[class*="border"][class*="px-"] {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.58), rgba(2, 6, 23, 0.42)) !important;
+  border-color: rgba(125, 211, 252, 0.20) !important;
+  color: rgba(241, 245, 249, 0.94) !important;
+}
+
+button[class*="border"][class*="px-"]:hover,
+a[class*="border"][class*="px-"]:hover {
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(99, 102, 241, 0.10)) !important;
+  border-color: rgba(103, 232, 249, 0.42) !important;
+}
+
+/* Sidebar and nav */
+.eos-v306-sidebar,
+.eos-v307-sidebar,
+aside,
+[class*="sidebar"] {
+  background:
+    radial-gradient(circle at 42% 0%, rgba(59, 130, 246, 0.18), transparent 31%),
+    radial-gradient(circle at 0% 42%, rgba(103, 232, 249, 0.11), transparent 28%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.97), rgba(8, 17, 34, 0.91) 62%, rgba(2, 6, 23, 0.98)) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  box-shadow:
+    inset -1px 0 0 rgba(125, 211, 252, 0.13),
+    20px 0 90px rgba(0, 0, 0, 0.34);
+}
+
+aside button,
+.eos-v306-sidebar button,
+.eos-v307-sidebar button,
+[class*="sidebar"] button,
+nav button {
+  white-space: nowrap !important;
+  border-radius: 1rem !important;
+}
+
+aside button:hover,
+.eos-v306-sidebar button:hover,
+.eos-v307-sidebar button:hover,
+[class*="sidebar"] button:hover,
+nav button:hover {
+  transform: translateX(3px);
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.17), rgba(99, 102, 241, 0.10)) !important;
+  border-color: rgba(103, 232, 249, 0.28) !important;
+}
+
+/* Inputs/forms/calculations */
+input,
+select,
+textarea {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(103, 232, 249, 0.06), transparent 35%),
+    rgba(2, 6, 23, 0.62) !important;
+  border: 1px solid rgba(125, 211, 252, 0.20) !important;
+  color: #f8fafc !important;
+  border-radius: 1rem;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 163, 184, 0.78);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(103, 232, 249, 0.56) !important;
+  box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.13);
+}
+
+/* Tables and report data */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead,
+tbody,
+tr,
+td,
+th {
+  border-color: rgba(125, 211, 252, 0.13) !important;
+}
+
+th {
+  color: rgba(186, 230, 253, 0.95);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+td {
+  color: rgba(226, 232, 240, 0.90);
+}
+
+/* Chips/pills/badges/metrics */
+span[class*="rounded-full"],
+div[class*="rounded-full"][class*="border"],
+.badge,
+[class*="Pill"] {
+  border-color: rgba(125, 211, 252, 0.22) !important;
+  background:
+    linear-gradient(135deg, rgba(14,165,233,0.13), rgba(99,102,241,0.08)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+svg,
+canvas {
+  max-width: 100%;
+}
+
+[class*="min-h-["][class*="rounded"],
+[class*="h-["][class*="rounded"] {
+  border-color: rgba(125, 211, 252, 0.16) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 20px 80px rgba(0,0,0,.22);
+}
+
+/* Mobile polish */
+@media (max-width: 900px) {
+  body::before {
+    background-size: 42px 42px;
+    opacity: 0.42;
+  }
+
+  main {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+
+  main h1 {
+    font-size: clamp(2.35rem, 12vw, 4.35rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  main h2 {
+    font-size: clamp(1.7rem, 7vw, 2.75rem) !important;
+  }
+
+  main button:has(p),
+  .eos-action-card,
+  .eos-feature-card,
+  .eos-home-card,
+  .eos-tool-card,
+  .eos-mission-card {
+    min-height: 190px !important;
+  }
+
+  nav[class*="fixed"],
+  [class*="bottom"] nav,
+  .mobile-nav {
+    backdrop-filter: blur(24px);
+    background:
+      linear-gradient(135deg, rgba(8, 17, 34, 0.94), rgba(2, 6, 23, 0.94)) !important;
+    border-color: rgba(125, 211, 252, 0.20) !important;
+  }
+}
+
+/* Accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.92) !important;
+  outline-offset: 3px !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.76);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(103,232,249,.45), rgba(167,139,250,.40));
+  border: 2px solid rgba(2, 6, 23, 0.76);
+  border-radius: 999px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+
+/* =========================================================
+   ELEMENTOS V401 MAGNIFICENT VISUAL UPGRADE
+   Safe aesthetic pass: no routes, no data logic, no Supabase,
+   no Stripe, no report/calculation/lab behaviour changed.
+   Purpose: make the whole product feel cinematic, expensive,
+   coherent, and closer to the V305/V306 homepage theme.
+   ========================================================= */
+
+:root {
+  --eos401-void: #020617;
+  --eos401-deep: #07111f;
+  --eos401-glass: rgba(8, 17, 34, 0.76);
+  --eos401-glass-strong: rgba(3, 7, 18, 0.88);
+  --eos401-line: rgba(125, 211, 252, 0.18);
+  --eos401-line-hot: rgba(103, 232, 249, 0.48);
+  --eos401-cyan: #67e8f9;
+  --eos401-blue: #60a5fa;
+  --eos401-violet: #a78bfa;
+  --eos401-pink: #f0abfc;
+  --eos401-emerald: #6ee7b7;
+  --eos401-amber: #fcd34d;
+  --eos401-text: #f8fafc;
+  --eos401-muted: rgba(203, 213, 225, 0.78);
+  --eos401-faint: rgba(148, 163, 184, 0.72);
+  --eos401-radius: 1.5rem;
+  --eos401-radius-xl: 2rem;
+  --eos401-glow: 0 0 0 1px rgba(103, 232, 249, 0.10), 0 26px 90px rgba(14, 165, 233, 0.16);
+  --eos401-glow-strong: 0 0 0 1px rgba(103, 232, 249, 0.18), 0 34px 120px rgba(14, 165, 233, 0.22);
+}
+
+/* Universal deep-space canvas */
+html,
+body,
+#root {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 18% 7%, rgba(34, 211, 238, 0.16), transparent 27%),
+    radial-gradient(circle at 82% 10%, rgba(167, 139, 250, 0.15), transparent 28%),
+    radial-gradient(circle at 52% 92%, rgba(96, 165, 250, 0.10), transparent 35%),
+    linear-gradient(135deg, #020617 0%, #07111f 47%, #020617 100%) !important;
+}
+
+body {
+  color: var(--eos401-text);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -30;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(125, 211, 252, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.035) 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: radial-gradient(circle at 50% 8%, black 0%, transparent 78%);
+  opacity: 0.62;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -29;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 22%, rgba(103, 232, 249, 0.16), transparent 9%),
+    radial-gradient(circle at 70% 34%, rgba(167, 139, 250, 0.13), transparent 12%),
+    radial-gradient(circle at 18% 84%, rgba(96, 165, 250, 0.09), transparent 18%),
+    linear-gradient(to bottom, rgba(2,6,23,0.03), rgba(2,6,23,0.72));
+}
+
+/* Add a faint premium orbital atmosphere on every page */
+main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+  pointer-events: none;
+  background:
+    conic-gradient(from 140deg at 78% 18%, transparent 0 28%, rgba(103,232,249,.10) 34%, transparent 43%, rgba(167,139,250,.08) 58%, transparent 70%),
+    radial-gradient(circle at 78% 18%, rgba(103,232,249,.13), transparent 22%);
+  opacity: 0.72;
+  mix-blend-mode: screen;
+}
+
+/* Page surfaces */
+main,
+.eos-page-stage,
+.eos-scroll-root,
+[class*="page"],
+[class*="Page"] {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Typography: big, confident, premium */
+main h1,
+main h2,
+main h3 {
+  color: #fff;
+  text-wrap: balance;
+}
+
+main h1 {
+  letter-spacing: -0.07em;
+  text-shadow: 0 0 44px rgba(96, 165, 250, 0.18);
+}
+
+main h2 {
+  letter-spacing: -0.05em;
+}
+
+main h3 {
+  letter-spacing: -0.028em;
+}
+
+main p,
+main li {
+  text-wrap: pretty;
+}
+
+[class*="uppercase"][class*="tracking"] {
+  letter-spacing: 0.18em !important;
+}
+
+[class*="text-slate-300"] { color: rgba(226, 232, 240, 0.88) !important; }
+[class*="text-slate-400"] { color: var(--eos401-muted) !important; }
+[class*="text-slate-500"] { color: var(--eos401-faint) !important; }
+[class*="text-cyan"], [class*="text-sky"] { color: var(--eos401-cyan) !important; }
+[class*="text-blue"] { color: #93c5fd !important; }
+[class*="text-purple"], [class*="text-violet"], [class*="text-fuchsia"] { color: #c4b5fd !important; }
+[class*="text-emerald"], [class*="text-green"] { color: var(--eos401-emerald) !important; }
+[class*="text-amber"], [class*="text-yellow"] { color: var(--eos401-amber) !important; }
+
+/* Universal card and panel system */
+section[class*="rounded"],
+article[class*="rounded"],
+div[class*="rounded-[2rem]"][class*="border"],
+div[class*="rounded-[1.5rem]"][class*="border"],
+div[class*="rounded-2xl"][class*="border"],
+div[class*="rounded-3xl"][class*="border"],
+.panel,
+.card,
+.eos-panel,
+[class*="Panel"] {
+  border-color: var(--eos401-line) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.075), transparent 32%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.80), rgba(2, 6, 23, 0.70)) !important;
+  backdrop-filter: blur(24px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.065),
+    0 22px 74px rgba(0,0,0,.25);
+}
+
+/* More elegant colored surfaces while preserving semantic meaning */
+[class*="bg-cyan-300/"], [class*="bg-sky-300/"], [class*="bg-blue-300/"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(14, 165, 233, 0.17), rgba(2, 6, 23, 0.68)) !important;
+}
+
+[class*="bg-purple"], [class*="bg-fuchsia"], [class*="bg-violet"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(167, 139, 250, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(99, 102, 241, 0.16), rgba(2, 6, 23, 0.68)) !important;
+}
+
+[class*="bg-emerald"], [class*="bg-green"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(110, 231, 183, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(16, 185, 129, 0.14), rgba(2, 6, 23, 0.68)) !important;
+}
+
+[class*="bg-amber"], [class*="bg-yellow"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(252, 211, 77, 0.13), transparent 34%),
+    linear-gradient(145deg, rgba(245, 158, 11, 0.14), rgba(2, 6, 23, 0.68)) !important;
+}
+
+[class*="bg-red"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(252, 165, 165, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(185, 28, 28, 0.16), rgba(2, 6, 23, 0.70)) !important;
+}
+
+/* Interactive hover state */
+main button[class*="rounded"]:hover,
+main a[class*="rounded"]:hover,
+main [role="button"][class*="rounded"]:hover {
+  border-color: var(--eos401-line-hot) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.11),
+    var(--eos401-glow-strong);
+}
+
+/* Button protection + premium buttons */
+button,
+.button,
+.btn,
+[role="button"],
+a[class*="rounded"][class*="px-"] {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+button:not(:has(p)),
+.button,
+.btn,
+[role="button"]:not(:has(p)),
+a[class*="rounded"][class*="px-"] {
+  white-space: nowrap !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+main button:has(p),
+.eos-action-card,
+.eos-feature-card,
+.eos-home-card,
+.eos-tool-card,
+.eos-mission-card,
+.eos-magic-tile,
+button[data-eos-card="action"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.9rem !important;
+  width: 100%;
+  min-width: 0 !important;
+  text-align: center !important;
+  white-space: normal !important;
+}
+
+main button:has(p) p,
+.eos-action-card p,
+.eos-feature-card p,
+.eos-home-card p,
+.eos-tool-card p,
+.eos-mission-card p,
+.eos-magic-tile p,
+button[data-eos-card="action"] p {
+  white-space: normal !important;
+  text-align: center;
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Primary CTA */
+button[class*="bg-cyan-300"],
+button[class*="bg-sky-300"],
+button[class*="bg-blue-300"],
+button[class*="bg-white"],
+.eos-button {
+  border: 1px solid rgba(103, 232, 249, 0.36) !important;
+  background:
+    linear-gradient(135deg, rgba(103,232,249,0.98), rgba(96,165,250,0.95) 45%, rgba(167,139,250,0.95)) !important;
+  color: #020617 !important;
+  box-shadow:
+    0 0 0 1px rgba(103,232,249,.10),
+    0 16px 50px rgba(37, 99, 235, 0.28);
+}
+
+button[class*="bg-cyan-300"]:hover,
+button[class*="bg-sky-300"]:hover,
+button[class*="bg-blue-300"]:hover,
+button[class*="bg-white"]:hover,
+.eos-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(103,232,249,.20),
+    0 26px 76px rgba(37, 99, 235, 0.36);
+}
+
+/* Secondary buttons */
+button[class*="border"][class*="px-"]:not([class*="bg-cyan"]):not([class*="bg-white"]),
+a[class*="border"][class*="px-"] {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.60), rgba(2, 6, 23, 0.44)) !important;
+  border-color: rgba(125, 211, 252, 0.22) !important;
+  color: rgba(241, 245, 249, 0.94) !important;
+}
+
+button[class*="border"][class*="px-"]:hover,
+a[class*="border"][class*="px-"]:hover {
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.17), rgba(99, 102, 241, 0.11)) !important;
+  border-color: rgba(103, 232, 249, 0.44) !important;
+}
+
+/* Sidebars and nav */
+.eos-v306-sidebar,
+.eos-v307-sidebar,
+aside,
+[class*="sidebar"] {
+  background:
+    radial-gradient(circle at 42% 0%, rgba(59, 130, 246, 0.20), transparent 31%),
+    radial-gradient(circle at 0% 42%, rgba(103, 232, 249, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.98), rgba(8, 17, 34, 0.92) 62%, rgba(2, 6, 23, 0.99)) !important;
+  border-color: rgba(125, 211, 252, 0.20) !important;
+  box-shadow:
+    inset -1px 0 0 rgba(125, 211, 252, 0.14),
+    22px 0 96px rgba(0, 0, 0, 0.36);
+}
+
+aside button,
+.eos-v306-sidebar button,
+.eos-v307-sidebar button,
+[class*="sidebar"] button,
+nav button {
+  white-space: nowrap !important;
+  border-radius: 1rem !important;
+}
+
+aside button:hover,
+.eos-v306-sidebar button:hover,
+.eos-v307-sidebar button:hover,
+[class*="sidebar"] button:hover,
+nav button:hover {
+  transform: translateX(3px);
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.18), rgba(99, 102, 241, 0.11)) !important;
+  border-color: rgba(103, 232, 249, 0.30) !important;
+}
+
+/* Inputs and calculators */
+input,
+select,
+textarea {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(103, 232, 249, 0.07), transparent 35%),
+    rgba(2, 6, 23, 0.64) !important;
+  border: 1px solid rgba(125, 211, 252, 0.22) !important;
+  color: #f8fafc !important;
+  border-radius: 1rem;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 163, 184, 0.78);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(103, 232, 249, 0.58) !important;
+  box-shadow: 0 0 0 3px rgba(103, 232, 249, 0.14);
+}
+
+/* Tables, reports, and structured data */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+thead,
+tbody,
+tr,
+td,
+th {
+  border-color: rgba(125, 211, 252, 0.14) !important;
+}
+
+th {
+  color: rgba(186, 230, 253, 0.96);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+td {
+  color: rgba(226, 232, 240, 0.90);
+}
+
+/* Chips/badges */
+span[class*="rounded-full"],
+div[class*="rounded-full"][class*="border"],
+.badge,
+[class*="Pill"] {
+  border-color: rgba(125, 211, 252, 0.24) !important;
+  background:
+    linear-gradient(135deg, rgba(14,165,233,0.14), rgba(99,102,241,0.09)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.055);
+}
+
+/* Lab/graph visual areas */
+svg,
+canvas {
+  max-width: 100%;
+}
+
+[class*="min-h-["][class*="rounded"],
+[class*="h-["][class*="rounded"] {
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 22px 82px rgba(0,0,0,.24);
+}
+
+/* Make cards feel more dimensional */
+main .grid > div[class*="rounded"],
+main .grid > button[class*="rounded"],
+main .grid > section[class*="rounded"] {
+  transform-style: preserve-3d;
+}
+
+main .grid > button[class*="rounded"]:hover,
+main .grid > a[class*="rounded"]:hover {
+  transform: translateY(-4px);
+}
+
+/* Mobile polish */
+@media (max-width: 900px) {
+  body::before {
+    background-size: 42px 42px;
+    opacity: 0.44;
+  }
+
+  main {
+    padding-left: max(0.75rem, env(safe-area-inset-left));
+    padding-right: max(0.75rem, env(safe-area-inset-right));
+  }
+
+  main h1 {
+    font-size: clamp(2.35rem, 12vw, 4.35rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  main h2 {
+    font-size: clamp(1.7rem, 7vw, 2.75rem) !important;
+  }
+
+  main button:has(p),
+  .eos-action-card,
+  .eos-feature-card,
+  .eos-home-card,
+  .eos-tool-card,
+  .eos-mission-card,
+  .eos-magic-tile,
+  button[data-eos-card="action"] {
+    min-height: 190px !important;
+  }
+
+  nav[class*="fixed"],
+  [class*="bottom"] nav,
+  .mobile-nav {
+    backdrop-filter: blur(24px);
+    background:
+      linear-gradient(135deg, rgba(8, 17, 34, 0.95), rgba(2, 6, 23, 0.95)) !important;
+    border-color: rgba(125, 211, 252, 0.22) !important;
+  }
+}
+
+/* Focus and accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.92) !important;
+  outline-offset: 3px !important;
+}
+
+/* Lux scrollbar */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.78);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(103,232,249,.48), rgba(167,139,250,.42));
+  border: 2px solid rgba(2, 6, 23, 0.78);
+  border-radius: 999px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
