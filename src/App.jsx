@@ -2266,7 +2266,7 @@ function Button({ children, onClick, variant = "ghost", className = "", disabled
       disabled={disabled}
       title={title}
       aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
-      className={`eos-button eos-button-fit eos-touch-glow eos-liquid-button inline-flex min-w-0 max-w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-center font-bold leading-tight transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_28px_rgba(0,145,255,.22)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:shadow-none ${styles} ${className}`}
+      className={`eos-button eos-button-fit eos-touch-glow eos-liquid-button inline-flex min-w-[9rem] max-w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-center font-bold leading-tight whitespace-nowrap transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_28px_rgba(0,145,255,.22)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:shadow-none ${styles} ${className}`}
       data-eos-control="button"
       data-eos-fit="auto"
       {...props}
