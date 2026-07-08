@@ -2266,7 +2266,7 @@ function Button({ children, onClick, variant = "ghost", className = "", disabled
       disabled={disabled}
       title={title}
       aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
-      className={`eos-button eos-button-fit eos-touch-glow eos-liquid-button inline-flex min-w-[9rem] max-w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-center font-bold leading-tight whitespace-nowrap transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_28px_rgba(0,145,255,.22)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:shadow-none ${styles} ${className}`}
+      className={`eos-button eos-button-fit eos-touch-glow eos-liquid-button inline-flex min-w-[8.5rem] max-w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-center font-bold leading-tight whitespace-nowrap transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_28px_rgba(0,145,255,.22)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:shadow-none ${styles} ${className}`}
       data-eos-control="button"
       data-eos-fit="auto"
       {...props}
@@ -2418,42 +2418,11 @@ function V240ResearchCentreUpgradePanel({ compare = [], selected = "Ti", isPro, 
 
 function LuxuryActionCard({ title, body, icon: Icon = Sparkles, onClick, primary = false }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`eos-action-card-v300 group relative flex min-h-[272px] w-full flex-col items-center justify-between overflow-hidden rounded-[2rem] border p-6 text-center transition duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-cyan-300/50 ${
-        primary
-          ? "border-cyan-300/45 bg-gradient-to-br from-cyan-300/16 via-slate-950/72 to-blue-500/10 shadow-[0_0_70px_rgba(34,211,238,.18)]"
-          : "border-white/10 bg-white/[0.035] shadow-[inset_0_1px_0_rgba(255,255,255,.05)] hover:border-cyan-300/30 hover:bg-cyan-300/[0.055] hover:shadow-[0_0_60px_rgba(34,211,238,.12)]"
-      }`}
-      data-eos-card="action"
-    >
-      <div className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100">
-        <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-cyan-300/10 blur-3xl" />
-        <div className="absolute -bottom-12 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
-      </div>
-
-      <div className="relative z-10 flex flex-col items-center">
-        <div className={`grid h-16 w-16 place-items-center rounded-[1.35rem] shadow-[0_0_36px_rgba(34,211,238,.16)] ${
-          primary
-            ? "bg-cyan-300 text-slate-950"
-            : "border border-cyan-300/20 bg-slate-950/70 text-cyan-100"
-        }`}>
-          <Icon size={26} />
-        </div>
-
-        <div className="mt-5 max-w-full text-balance text-2xl font-black leading-tight tracking-tight text-white">
-          {title}
-        </div>
-
-        <p className="mx-auto mt-3 max-w-[24rem] text-pretty text-sm leading-6 text-slate-300">
-          {body}
-        </p>
-      </div>
-
-      <div className="relative z-10 mt-6 inline-flex items-center justify-center rounded-full border border-cyan-300/25 bg-cyan-300/10 px-4 py-2 text-xs font-black uppercase tracking-[.2em] text-cyan-100 transition group-hover:border-cyan-200/60 group-hover:bg-cyan-300/20 group-hover:text-white">
-        Launch →
-      </div>
+    <button onClick={onClick} className={`group rounded-[1.65rem] border p-5 text-left transition duration-300 hover:-translate-y-1 ${primary ? "border-cyan-300/[.35] bg-cyan-300/10 shadow-[0_0_42px_rgba(34,211,238,.12)]" : "border-white/10 bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.06]"}`}>
+      <div className={`grid h-12 w-12 place-items-center rounded-2xl ${primary ? "bg-cyan-300 text-slate-950" : "border border-white/10 bg-black/25 text-cyan-100"}`}><Icon size={20}/></div>
+      <div className="mt-5 text-xl font-black text-white">{title}</div>
+      <p className="mt-2 text-sm leading-6 text-slate-400">{body}</p>
+      <div className="mt-4 text-xs font-black uppercase tracking-[.22em] text-cyan-200 opacity-70 transition group-hover:opacity-100">Open workflow →</div>
     </button>
   );
 }
@@ -3532,40 +3501,83 @@ function ElementOSThemeSkin() {
         }
       }
 
-      /* V241 Button Fit + NOR/SOR interface refinement.
-         NOR remains the structural grid. SOR is used only as controlled skew accents
-         so text, buttons, and windows stay readable and perpendicular. */
+      /* V302 Button Text Rescue.
+         The old V241 rule caused vertical letter-by-letter buttons by forcing
+         min-width: 0 + white-space: normal + overflow-wrap:anywhere on every button.
+         Real CTAs now stay horizontal; card-like buttons are handled separately. */
       .eos-button,
       .eos-button-fit,
-      .eos-nor-grid-interface button,
+      .eos-nor-grid-interface button[data-eos-control="button"],
       .eos-nor-grid-interface a[role="button"] {
-        min-width: 0 !important;
+        min-width: 8.5rem !important;
         max-width: 100% !important;
-        white-space: normal !important;
-        overflow-wrap: anywhere !important;
-        word-break: normal !important;
+        white-space: nowrap !important;
+        overflow-wrap: normal !important;
+        word-break: keep-all !important;
         line-height: 1.14 !important;
         text-align: center !important;
         display: inline-flex !important;
+        flex-direction: row !important;
         align-items: center !important;
         justify-content: center !important;
         gap: .5rem !important;
         position: relative;
         isolation: isolate;
+        writing-mode: horizontal-tb !important;
+        text-orientation: mixed !important;
+      }
+      .eos-button.w-full,
+      .eos-button-fit.w-full,
+      .eos-nor-grid-interface button[data-eos-control="button"].w-full {
+        width: 100% !important;
+        min-width: min(100%, 10rem) !important;
       }
       .eos-button > *,
       .eos-button-fit > *,
-      .eos-nor-grid-interface button > * {
-        min-width: 0;
+      .eos-nor-grid-interface button[data-eos-control="button"] > * {
+        min-width: auto !important;
+        max-width: 100% !important;
+        white-space: nowrap !important;
+        overflow-wrap: normal !important;
+        word-break: keep-all !important;
       }
       .eos-button svg,
       .eos-nor-grid-interface button svg {
         flex: 0 0 auto;
       }
       .eos-button-text-overflow {
-        font-size: clamp(.72rem, 1.6vw, .9rem) !important;
-        padding-inline: .7rem !important;
-        letter-spacing: .01em !important;
+        font-size: clamp(.78rem, 1.2vw, .95rem) !important;
+        padding-inline: .9rem !important;
+        letter-spacing: -.005em !important;
+        white-space: nowrap !important;
+      }
+      /* Homepage/action tiles are allowed to contain descriptions, so they stack vertically. */
+      .eos-magic-tile,
+      .eos-action-card-v300,
+      .eos-action-card-v301,
+      .eos-action-card-v302,
+      .eos-nor-grid-interface button[data-eos-card="action"] {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: .75rem !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        white-space: normal !important;
+        overflow-wrap: normal !important;
+        word-break: normal !important;
+        text-align: center !important;
+      }
+      .eos-magic-tile *,
+      .eos-action-card-v300 *,
+      .eos-action-card-v301 *,
+      .eos-action-card-v302 *,
+      .eos-nor-grid-interface button[data-eos-card="action"] * {
+        white-space: normal !important;
+        overflow-wrap: normal !important;
+        word-break: normal !important;
+        text-align: center !important;
       }
       .eos-button::after,
       .eos-nor-grid-interface button::after {
