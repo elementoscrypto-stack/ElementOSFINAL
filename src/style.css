@@ -3349,3 +3349,212 @@ textarea:focus-visible {
   }
 }
 
+
+/* =========================================================
+   ELEMENTOS V402 TARGETED FIXES
+   1) Homepage Platform Command Center cards:
+      centre icon/title/launch and stop icon clipping.
+   2) Element Explorer index panel:
+      remove harsh turquoise wash and make panel sticky while scrolling.
+   CSS-only. No functionality changed.
+   ========================================================= */
+
+/* ---------- 1. Homepage Platform Command Center card rescue ---------- */
+
+/* Homepage command/action cards with icon + title + description + launch */
+.v305-homepage button:has(p),
+.v306-homepage button:has(p),
+.v305-homepage .eos-magic-tile,
+.v306-homepage .eos-magic-tile,
+.v305-homepage .eos-action-card,
+.v306-homepage .eos-action-card,
+.v305-homepage .eos-feature-card,
+.v306-homepage .eos-feature-card,
+.v305-homepage button[data-eos-card="action"],
+.v306-homepage button[data-eos-card="action"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.9rem !important;
+  min-height: 245px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 1.45rem 1.25rem !important;
+  overflow: visible !important;
+  text-align: center !important;
+  white-space: normal !important;
+}
+
+/* Stop decorative/top-left icon positioning and force icons into a centred icon well */
+.v305-homepage button:has(p) > svg,
+.v306-homepage button:has(p) > svg,
+.v305-homepage .eos-magic-tile > svg,
+.v306-homepage .eos-magic-tile > svg,
+.v305-homepage .eos-action-card > svg,
+.v306-homepage .eos-action-card > svg,
+.v305-homepage .eos-feature-card > svg,
+.v306-homepage .eos-feature-card > svg,
+.v305-homepage button[data-eos-card="action"] > svg,
+.v306-homepage button[data-eos-card="action"] > svg {
+  position: static !important;
+  inset: auto !important;
+  transform: none !important;
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 2.65rem !important;
+  height: 2.65rem !important;
+  margin: 0 auto 0.15rem !important;
+  padding: 0.55rem !important;
+  border-radius: 1.1rem !important;
+  color: #67e8f9 !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.26), transparent 60%),
+    linear-gradient(135deg, rgba(14, 165, 233, 0.20), rgba(99, 102, 241, 0.16)) !important;
+  border: 1px solid rgba(103, 232, 249, 0.26) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.10),
+    0 16px 44px rgba(8,145,178,.18) !important;
+}
+
+/* If the icon is wrapped in a div/span, centre that too */
+.v305-homepage button:has(p) > div:first-child:has(svg),
+.v306-homepage button:has(p) > div:first-child:has(svg),
+.v305-homepage button:has(p) > span:first-child:has(svg),
+.v306-homepage button:has(p) > span:first-child:has(svg) {
+  position: static !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 3.25rem !important;
+  height: 3.25rem !important;
+  margin: 0 auto !important;
+  border-radius: 1.1rem !important;
+  overflow: visible !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103, 232, 249, 0.22), transparent 62%),
+    linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(99, 102, 241, 0.14)) !important;
+  border: 1px solid rgba(103, 232, 249, 0.22) !important;
+}
+
+/* Title stays centred, fully visible */
+.v305-homepage button:has(p) h3,
+.v306-homepage button:has(p) h3,
+.v305-homepage button:has(p) h2,
+.v306-homepage button:has(p) h2,
+.v305-homepage button:has(p) strong,
+.v306-homepage button:has(p) strong,
+.v305-homepage .eos-card-title,
+.v306-homepage .eos-card-title {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  white-space: normal !important;
+  line-height: 1.05 !important;
+  text-wrap: balance !important;
+  overflow: visible !important;
+}
+
+/* Description is centred under title */
+.v305-homepage button:has(p) p,
+.v306-homepage button:has(p) p {
+  display: block !important;
+  width: 100% !important;
+  max-width: 21rem !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  white-space: normal !important;
+  line-height: 1.55 !important;
+}
+
+/* Launch CTA / bottom line centred and never clipped */
+.v305-homepage button:has(p) .eos-button,
+.v306-homepage button:has(p) .eos-button,
+.v305-homepage button:has(p) [class*="Launch"],
+.v306-homepage button:has(p) [class*="Launch"],
+.v305-homepage button:has(p) > div:last-child,
+.v306-homepage button:has(p) > div:last-child,
+.v305-homepage button:has(p) > span:last-child,
+.v306-homepage button:has(p) > span:last-child {
+  align-self: center !important;
+  justify-self: end !important;
+  margin: auto auto 0 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  max-width: 100% !important;
+}
+
+/* Prevent any pseudo glow from visually cutting into the icon */
+.v305-homepage button:has(p)::before,
+.v306-homepage button:has(p)::before,
+.v305-homepage button:has(p)::after,
+.v306-homepage button:has(p)::after {
+  pointer-events: none !important;
+}
+
+/* ---------- 2. Element Explorer index panel polish + sticky behaviour ---------- */
+
+/* Target the Element Index panel by its visible content using modern selector support */
+main div:has(> div:first-child):has(input):has(button) {
+  scroll-margin-top: 6rem;
+}
+
+/* More specific: any panel containing the "Element Index" title */
+main div[class*="rounded"]:has(:is(h2,h3,div):first-child):has(input),
+main section[class*="rounded"]:has(:is(h2,h3,div):first-child):has(input) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(125, 211, 252, 0.055), transparent 34%),
+    linear-gradient(145deg, rgba(8, 17, 34, 0.90), rgba(2, 6, 23, 0.82)) !important;
+  border-color: rgba(125, 211, 252, 0.18) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 18px 58px rgba(0,0,0,.26) !important;
+}
+
+/* Remove the strong turquoise flooding from buttons inside the Element Index box */
+main div[class*="rounded"]:has(input) button,
+main section[class*="rounded"]:has(input) button {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.78), rgba(2, 6, 23, 0.62)) !important;
+  border-color: rgba(125, 211, 252, 0.14) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+main div[class*="rounded"]:has(input) button:hover,
+main section[class*="rounded"]:has(input) button:hover {
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(99, 102, 241, 0.10)) !important;
+  border-color: rgba(103, 232, 249, 0.36) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.075),
+    0 14px 44px rgba(8,145,178,.14) !important;
+}
+
+/* Make the left/sidebar index panel follow the scroll on desktop.
+   This catches typical explorer 2-column layouts without changing React. */
+@media (min-width: 1024px) {
+  main .grid > div:has(input):has(button),
+  main .grid > aside:has(input):has(button),
+  main [class*="grid-cols"] > div:has(input):has(button),
+  main [class*="grid-cols"] > aside:has(input):has(button) {
+    position: sticky !important;
+    top: 6rem !important;
+    align-self: start !important;
+    max-height: calc(100vh - 7rem) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+}
+
+/* On mobile, keep it normal so it doesn't cover content */
+@media (max-width: 1023px) {
+  main .grid > div:has(input):has(button),
+  main .grid > aside:has(input):has(button),
+  main [class*="grid-cols"] > div:has(input):has(button),
+  main [class*="grid-cols"] > aside:has(input):has(button) {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
