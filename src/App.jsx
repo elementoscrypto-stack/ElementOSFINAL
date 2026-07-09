@@ -1623,6 +1623,7 @@ const MOBILE_PAGE_ORDER = [
   "atlas",
   "reports",
   "lab",
+  "lab-element-analyzer",
 ];
 
 function pageLabel(page) {
@@ -4667,6 +4668,17 @@ function Sidebar({ page, setPage }) {
       icon: Radar,
       items: [
         ["lab", "Advanced Labs", Radar],
+
+        ['lab-element-analyzer', 'Element Analyzer', Atom],
+        ['lab-materials-engineering', 'Materials Engineering', Gem],
+        ['lab-bioelements', 'BioElements', Dna],
+        ['lab-geoscience', 'GeoScience', Globe2],
+        ['lab-industrial', 'Industrial Applications', BriefcaseBusiness],
+        ['lab-energy', 'Energy Lab', Zap],
+        ['lab-chemistry', 'Chemistry Simulator', Calculator],
+        ['lab-safety-risk', 'Safety & Risk', ShieldCheck],
+        ['lab-material-discovery', 'Material Discovery', Orbit],
+
         ["accelerator", "Particle Accelerator", Zap],
         ["materialsdiscovery", "Materials Discovery", Sparkles],
         ["extremelab", "Extreme Environment", ShieldCheck],
@@ -8552,9 +8564,9 @@ function Explorer({ selected, setSelected, setCompare, setPage, setForecastReque
         .eos-explorer-premium-v203 { --explorer-cyan: rgba(34,211,238,.34); --explorer-glow: rgba(34,211,238,.12); }
         .eos-explorer-premium-v203 .eos-hero-panel { border-radius: 34px !important; border-color: rgba(34,211,238,.22) !important; background: radial-gradient(circle at 18% 8%, rgba(34,211,238,.18), transparent 34%), linear-gradient(135deg, rgba(2,6,23,.98), rgba(15,23,42,.94) 48%, rgba(3,7,18,.98)) !important; box-shadow: 0 28px 90px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.06); }
         .eos-explorer-premium-v203 .eos-explorer-command-strip { border-radius: 30px; border: 1px solid rgba(34,211,238,.18); background: linear-gradient(135deg, rgba(15,23,42,.86), rgba(2,6,23,.96)); box-shadow: 0 24px 80px rgba(2,6,23,.32); }
-        .eos-explorer-premium-v203 .eos-explorer-list-frame { max-height: min(78vh, 880px); border-radius: 28px; background: linear-gradient(180deg, rgba(15,23,42,.94), rgba(2,6,23,.98)); border: 1px solid rgba(34,211,238,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 22px 60px rgba(0,0,0,.28); }
-        .eos-explorer-premium-v203 .eos-explorer-list-frame button { border-radius: 20px !important; }
-        .eos-explorer-premium-v203 .eos-explorer-list-frame button:hover { transform: translateX(3px); border-color: rgba(34,211,238,.42) !important; }
+        .eos-explorer-premium-v203 .eos-explorer-list-frame eos-explorer-list-frame-v404 { max-height: min(78vh, 880px); border-radius: 28px; background: linear-gradient(180deg, rgba(15,23,42,.94), rgba(2,6,23,.98)); border: 1px solid rgba(34,211,238,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 22px 60px rgba(0,0,0,.28); }
+        .eos-explorer-premium-v203 .eos-explorer-list-frame eos-explorer-list-frame-v404 button { border-radius: 20px !important; }
+        .eos-explorer-premium-v203 .eos-explorer-list-frame eos-explorer-list-frame-v404 button:hover { transform: translateX(3px); border-color: rgba(34,211,238,.42) !important; }
         .eos-explorer-premium-v203 .eos-explorer-search { background: rgba(2,6,23,.72); border-color: rgba(34,211,238,.18) !important; }
         .eos-explorer-premium-v203 .eos-explorer-search:focus-within { border-color: rgba(34,211,238,.48) !important; box-shadow: 0 0 0 4px rgba(34,211,238,.08); }
         .eos-explorer-premium-v203 .eos-explorer-premium-panel { border-radius: 30px !important; border-color: rgba(255,255,255,.09) !important; background: linear-gradient(135deg, rgba(15,23,42,.9), rgba(2,6,23,.96)) !important; }
@@ -8656,7 +8668,7 @@ function Explorer({ selected, setSelected, setCompare, setPage, setForecastReque
       </Panel>
 
       <div className="grid gap-8 xl:grid-cols-[380px_1fr] 2xl:grid-cols-[420px_1fr]">
-        <Panel className="eos-explorer-list-frame eos-v403-element-index xl:sticky xl:top-24 xl:self-start">
+        <Panel className="eos-explorer-list-frame eos-explorer-list-frame-v404 eos-v403-element-index xl:sticky xl:top-24 xl:self-start">
           <div className="mb-4 flex items-center justify-between gap-3 border-b border-white/10 pb-4">
             <div>
               <div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">element index</div>
@@ -18423,9 +18435,9 @@ function SystemHealth({ page, selected, compare, forecastRequest, session, isPro
         .eos-explorer-premium-v203 { --explorer-cyan: rgba(34,211,238,.34); --explorer-glow: rgba(34,211,238,.12); }
         .eos-explorer-premium-v203 .eos-hero-panel { border-radius: 34px !important; border-color: rgba(34,211,238,.22) !important; background: radial-gradient(circle at 18% 8%, rgba(34,211,238,.18), transparent 34%), linear-gradient(135deg, rgba(2,6,23,.98), rgba(15,23,42,.94) 48%, rgba(3,7,18,.98)) !important; box-shadow: 0 28px 90px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.06); }
         .eos-explorer-premium-v203 .eos-explorer-command-strip { border-radius: 30px; border: 1px solid rgba(34,211,238,.18); background: linear-gradient(135deg, rgba(15,23,42,.86), rgba(2,6,23,.96)); box-shadow: 0 24px 80px rgba(2,6,23,.32); }
-        .eos-explorer-premium-v203 .eos-explorer-list-frame { max-height: min(78vh, 880px); border-radius: 28px; background: linear-gradient(180deg, rgba(15,23,42,.94), rgba(2,6,23,.98)); border: 1px solid rgba(34,211,238,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 22px 60px rgba(0,0,0,.28); }
-        .eos-explorer-premium-v203 .eos-explorer-list-frame button { border-radius: 20px !important; }
-        .eos-explorer-premium-v203 .eos-explorer-list-frame button:hover { transform: translateX(3px); border-color: rgba(34,211,238,.42) !important; }
+        .eos-explorer-premium-v203 .eos-explorer-list-frame eos-explorer-list-frame-v404 { max-height: min(78vh, 880px); border-radius: 28px; background: linear-gradient(180deg, rgba(15,23,42,.94), rgba(2,6,23,.98)); border: 1px solid rgba(34,211,238,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 22px 60px rgba(0,0,0,.28); }
+        .eos-explorer-premium-v203 .eos-explorer-list-frame eos-explorer-list-frame-v404 button { border-radius: 20px !important; }
+        .eos-explorer-premium-v203 .eos-explorer-list-frame eos-explorer-list-frame-v404 button:hover { transform: translateX(3px); border-color: rgba(34,211,238,.42) !important; }
         .eos-explorer-premium-v203 .eos-explorer-search { background: rgba(2,6,23,.72); border-color: rgba(34,211,238,.18) !important; }
         .eos-explorer-premium-v203 .eos-explorer-search:focus-within { border-color: rgba(34,211,238,.48) !important; box-shadow: 0 0 0 4px rgba(34,211,238,.08); }
         .eos-explorer-premium-v203 .eos-explorer-premium-panel { border-radius: 30px !important; border-color: rgba(255,255,255,.09) !important; background: linear-gradient(135deg, rgba(15,23,42,.9), rgba(2,6,23,.96)) !important; }
@@ -18694,6 +18706,29 @@ function V305CinematicHomepage({ setPage, session, isPro, startCheckout }) {
     </div>
   );
 }
+
+
+
+// =====================================================
+// ELEMENTOS V500 ADDITIVE ADVANCED LABS
+// Safe additive pages only. Existing systems preserved.
+// =====================================================
+const V500_LABS = [
+  {id:'lab-element-analyzer', title:'Element Analyzer Laboratory', short:'Element Analyzer', icon:Atom, tone:'cyan', tagline:'The digital twin of every element.', desc:'A living research environment for atomic identity, shells, crystal structure, safety, uses and market intelligence.', nav:['Search Element','Periodic Table','Compare','Isotopes','Crystal Structure','Uses','Safety','Market Availability'], metrics:[['Atomic Radius',86],['Density',58],['Conductivity',94],['Thermal Expansion',46],['Elastic Modulus',78]], outputs:['Rotating atom','Electron shell isolation','Orbital transition animation','Historical discovery timeline']},
+  {id:'lab-materials-engineering', title:'Materials Engineering Laboratory', short:'Materials Engineering', icon:Gem, tone:'violet', tagline:'Design, simulate and optimize advanced materials.', desc:'Build composite recipes and estimate strength, conductivity, corrosion, density, manufacturability, cost and carbon footprint.', nav:['Material Builder','Composition','Crystal Viewer','Simulation','Alternatives','Cost','Carbon','Report'], metrics:[['Strength',88],['Conductivity',73],['Corrosion',81],['Manufacturability',69],['Carbon Score',64]], outputs:['Aluminium 65%','Copper 20%','Titanium 15%','AI improvement recommendation']},
+  {id:'lab-bioelements', title:'BioElements Laboratory', short:'BioElements', icon:Dna, tone:'emerald', tagline:'Map the elements of life itself.', desc:'Connect elements to biology, organs, nutrition, enzymes, medical uses, deficiencies and health-related roles.', nav:['Human Map','Organs','Trace Elements','Nutrition','Blood','Enzymes','Medical Uses','Report'], metrics:[['Blood Role',94],['Enzyme Role',72],['Nutrition',86],['Medical Uses',66],['Toxicity Boundary',54]], outputs:['Iron','Copper','Zinc','Selenium']},
+  {id:'lab-geoscience', title:'GeoScience Laboratory', short:'GeoScience', icon:Globe2, tone:'amber', tagline:'Google Earth meets NASA for material intelligence.', desc:'Peel through planetary layers, simulate core samples and estimate minerals, temperature, pressure and rare-earth potential.', nav:['Earth Model','Crust','Mantle','Core','Drill Point','Ore Estimate','Rare Earths','Export'], metrics:[['Mineral Signal',82],['Temperature',77],['Pressure',91],['Ore Potential',68],['Rare Earth Potential',74]], outputs:['Atmosphere','Crust','Upper Mantle','Lower Mantle','Outer Core','Inner Core']},
+  {id:'lab-industrial', title:'Industrial Applications Laboratory', short:'Industrial Applications', icon:BriefcaseBusiness, tone:'blue', tagline:'Turn material intelligence into commercial decisions.', desc:'Explore industries, components, substitutions and alternatives for aerospace, automotive, medical, marine, energy and more.', nav:['Industries','Aerospace','Automotive','Marine','Medical','Components','Alternatives','Report'], metrics:[['Suitability',88],['Replacement Fit',76],['Cost Efficiency',71],['Supply Risk',42],['Manufacturing Fit',84]], outputs:['Wing','Landing Gear','Engine','Fuselage','Fasteners']},
+  {id:'lab-energy', title:'Energy Laboratory', short:'Energy Lab', icon:Zap, tone:'yellow', tagline:'Build and compare future energy materials.', desc:'Design battery cells, fuel cells and storage concepts while comparing energy density, cost, heat, lifetime and safety.', nav:['Cell Builder','Lithium-ion','Solid State','Sodium-ion','Hydrogen','Fuel Cells','Safety','Carbon'], metrics:[['Energy Density',87],['Charge Speed',69],['Lifetime',76],['Heat Risk',48],['Safety',81]], outputs:['Lithium','Nickel','Graphite','Aluminium','Copper']},
+  {id:'lab-chemistry', title:'Chemistry Simulator', short:'Chemistry Simulator', icon:Calculator, tone:'pink', tagline:'The Wolfram-style reaction engine for ElementOS.', desc:'Type a reaction, view a balanced equation, animate products, inspect heat and safety, then explain chemistry plainly.', nav:['Reaction Input','Balancer','Molecules','Heat','Energy','Products','Safety','Plain English'], metrics:[['Balance Confidence',96],['Energy Release',64],['Heat',71],['Product Stability',83],['Safety Rating',58]], outputs:['Al + O₂','Balanced equation','Electron transfer','Industrial uses']},
+  {id:'lab-safety-risk', title:'Safety & Risk Laboratory', short:'Safety & Risk', icon:ShieldCheck, tone:'red', tagline:'Analyze hazards before material decisions become expensive.', desc:'Evaluate material risk by temperature, pressure, environment and exposure with colour-coded handling guidance.', nav:['Material','Temperature','Pressure','Environment','Exposure','Storage','Transport','Disposal'], metrics:[['Risk Score',38],['Fire Rating',54],['Corrosion',71],['Toxicity',46],['Handling Safety',82]], outputs:['Green','Amber','Red','Handling','Storage','Transport','Disposal']},
+  {id:'lab-material-discovery', title:'Material Discovery Laboratory', short:'Material Discovery', icon:Orbit, tone:'cosmic', tagline:'Explore possible materials, not just known materials.', desc:'Define goals like maximum strength, minimum weight, high conductivity, low cost and sustainability, then explore a material galaxy.', nav:['Goal Builder','Strength','Weight','Conductivity','Cost','Corrosion','Sustainability','Galaxy'], metrics:[['Discovery Score',92],['Strength Goal',88],['Weight Goal',74],['Cost Goal',67],['Sustainability',81]], outputs:['Material galaxy','Candidate nodes','Composition filters','Objective scoring']},
+];
+
+function V500Metric({label,value}){return <div className="eos-v500-metric"><div className="flex justify-between gap-3 text-xs"><span className="font-black uppercase tracking-[.16em] text-slate-300">{label}</span><b className="text-cyan-100">{value}%</b></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-blue-300 to-violet-300" style={{width:`${value}%`}} /></div></div>}
+function V500Orb({lab}){const Icon=lab.icon;return <div className="eos-v500-visual"><div className="eos-v500-orbit one"/><div className="eos-v500-orbit two"/><div className="eos-v500-orbit three"/><div className="eos-v500-core"><Icon size={72}/></div><div className="eos-v500-data a">118</div><div className="eos-v500-data b">AI</div><div className="eos-v500-data c">LAB</div></div>}
+function V500AdvancedLabPage({labId,setPage}){const lab=V500_LABS.find(l=>l.id===labId)||V500_LABS[0];const Icon=lab.icon;return <div className={`eos-v500-page eos-v500-${lab.tone}`}><section className="eos-v500-hero"><div><div className="eos-v500-pill"><Icon size={14}/> Advanced Lab</div><h1>{lab.title}</h1><p className="eos-v500-tagline">{lab.tagline}</p><p className="eos-v500-desc">{lab.desc}</p><div className="eos-v500-actions"><button type="button" className="eos-v500-primary" onClick={()=>showToast(`${lab.short} simulation generated`)}>Generate Simulation <ChevronRight size={16}/></button><button type="button" className="eos-v500-secondary" onClick={()=>setPage('reports')}>Build Report <FileText size={16}/></button><button type="button" className="eos-v500-secondary" onClick={()=>setPage('compare')}>Compare Mode <BarChart3 size={16}/></button></div></div><V500Orb lab={lab}/></section><section className="eos-v500-grid"><aside className="eos-v500-side"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Lab navigation</div><div className="mt-4 grid gap-2">{lab.nav.map((n,i)=><button key={n} type="button" className="eos-v500-nav" onClick={()=>showToast(`${n} opened`)}><span>{String(i+1).padStart(2,'0')}</span>{n}</button>)}</div></aside><main className="eos-v500-center"><div className="eos-v500-sim"><div className="flex flex-wrap items-start justify-between gap-4"><div><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Live simulation</div><h2>{lab.short} engine</h2><p>{lab.outputs.join(' · ')}</p></div><div className="eos-v500-status">Prototype Ready</div></div><div className="eos-v500-live"><div className="eos-v500-wave"/><div className="eos-v500-node n1"/><div className="eos-v500-node n2"/><div className="eos-v500-node n3"/><div className="eos-v500-node n4"/><div className="eos-v500-scan"/></div></div><div className="eos-v500-shared">{[["AI Research Assistant",lab.desc,Bot],["Experiment History","Every generated scenario becomes a reusable lab timeline entry.",Clock3],["Compare Mode","Open two analyses side-by-side and compare material signals.",BarChart3],["Report Builder","Create a polished research-ready report from this lab.",FileText]].map(([t,b,I])=><div key={t} className="eos-v500-card"><I size={22}/><h3>{t}</h3><p>{b}</p></div>)}</div></main><aside className="eos-v500-intel"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Material Intelligence</div><div className="mt-5 grid gap-4">{lab.metrics.map(([l,v])=><V500Metric key={l} label={l} value={v}/>)}</div><div className="eos-v500-ai"><div className="flex items-center gap-2 text-sm font-black text-white"><Bot size={16}/> AI Lab Assistant</div><p>Ask questions, suggest experiments, compare outputs and generate reports inside this lab.</p></div></aside></section></div>}
+function V500AdvancedLabsHub({setPage}){return <div className="eos-v500-hub"><section className="eos-v500-hubhero"><div className="eos-v500-pill"><Sparkles size={14}/> Advanced Labs</div><h1>Deep Science. Real Data. Limitless Discovery.</h1><p>Nine cinematic research labs that turn ElementOS into a full operating system for material intelligence.</p></section><section className="eos-v500-hubgrid">{V500_LABS.map((lab,i)=>{const Icon=lab.icon;return <button key={lab.id} type="button" className={`eos-v500-hubcard eos-v500-${lab.tone}`} onClick={()=>setPage(lab.id)}><div className="eos-v500-num">LAB {String(i+1).padStart(2,'0')}</div><Icon size={42}/><h2>{lab.short}</h2><p>{lab.tagline}</p><span>Open Lab <ChevronRight size={14}/></span></button>})}</section></div>}
 
 export default function App() {
   const [page, setPage] = useState("landing");
@@ -18987,7 +19022,18 @@ const startCheckout = async (planName = "Pro Researcher") => {
       ),
       publicdiscovery: <PublicDiscoveryPage discovery={publicDiscovery} setPage={setPage} setPublicDiscovery={setPublicDiscovery} />,
       timemachine: <TimeMachineGenius selected={selected} setSelected={setSelected} setPage={setPage} forecastRequest={forecastRequest} />,
-      lab: <AdvancedLabsLaunch setPage={setPage} />,
+      lab: <V500AdvancedLabsHub setPage={setPage} />,
+
+      'lab-element-analyzer': <V500AdvancedLabPage labId="lab-element-analyzer" setPage={setPage} />,
+      'lab-materials-engineering': <V500AdvancedLabPage labId="lab-materials-engineering" setPage={setPage} />,
+      'lab-bioelements': <V500AdvancedLabPage labId="lab-bioelements" setPage={setPage} />,
+      'lab-geoscience': <V500AdvancedLabPage labId="lab-geoscience" setPage={setPage} />,
+      'lab-industrial': <V500AdvancedLabPage labId="lab-industrial" setPage={setPage} />,
+      'lab-energy': <V500AdvancedLabPage labId="lab-energy" setPage={setPage} />,
+      'lab-chemistry': <V500AdvancedLabPage labId="lab-chemistry" setPage={setPage} />,
+      'lab-safety-risk': <V500AdvancedLabPage labId="lab-safety-risk" setPage={setPage} />,
+      'lab-material-discovery': <V500AdvancedLabPage labId="lab-material-discovery" setPage={setPage} />,
+
       materialsdiscovery: <MaterialsDiscoveryEngine setPage={setPage} setSelected={setSelected} setCompare={setCompare} setForecastRequest={setForecastRequest} />,
       extremelab: <ExtremeEnvironmentLab selected={selected} setSelected={setSelected} setPage={setPage} setForecastRequest={setForecastRequest} />,
       crystallab: <CrystalStructureLab selected={selected} setSelected={setSelected} setPage={setPage} />,

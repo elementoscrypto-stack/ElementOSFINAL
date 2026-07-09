@@ -3504,3 +3504,187 @@ textarea:focus-visible {
   background: linear-gradient(135deg, rgba(15,23,42,.82), rgba(2,6,23,.70)) !important;
 }
 
+
+/* =========================================================
+   ELEMENTOS V404 PREMIUM EXPLORER SIDEBAR FIX
+   Removes the turquoise stripe/glitch from Element Explorer.
+   Keeps sticky behaviour and upgrades the Element Index panel
+   to the same dark cinematic glass language as the homepage.
+   ========================================================= */
+
+/* Main Explorer index frame: remove aggressive cyan stripe/glow */
+.eos-explorer-list-frame,
+.eos-explorer-list-frame-v404 {
+  position: sticky !important;
+  top: 5.75rem !important;
+  align-self: start !important;
+  max-height: calc(100vh - 6.75rem) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  isolation: isolate !important;
+
+  border: 1px solid rgba(125, 211, 252, 0.16) !important;
+  background:
+    radial-gradient(circle at 50% -8%, rgba(96, 165, 250, 0.075), transparent 34%),
+    linear-gradient(145deg, rgba(8, 17, 34, 0.94), rgba(2, 6, 23, 0.88)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.055),
+    0 20px 70px rgba(0,0,0,.30) !important;
+  backdrop-filter: blur(24px) !important;
+}
+
+/* Kill all possible cyan stripe pseudo-elements */
+.eos-explorer-list-frame::before,
+.eos-explorer-list-frame::after,
+.eos-explorer-list-frame-v404::before,
+.eos-explorer-list-frame-v404::after {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Kill any absolutely positioned decorative stripe/glow inside the frame */
+.eos-explorer-list-frame > .absolute,
+.eos-explorer-list-frame > [class*="absolute"],
+.eos-explorer-list-frame-v404 > .absolute,
+.eos-explorer-list-frame-v404 > [class*="absolute"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Remove harsh turquoise flood from inner sections */
+.eos-explorer-list-frame [class*="bg-cyan"],
+.eos-explorer-list-frame [class*="bg-sky"],
+.eos-explorer-list-frame [class*="from-cyan"],
+.eos-explorer-list-frame [class*="to-cyan"],
+.eos-explorer-list-frame [class*="via-cyan"],
+.eos-explorer-list-frame-v404 [class*="bg-cyan"],
+.eos-explorer-list-frame-v404 [class*="bg-sky"],
+.eos-explorer-list-frame-v404 [class*="from-cyan"],
+.eos-explorer-list-frame-v404 [class*="to-cyan"],
+.eos-explorer-list-frame-v404 [class*="via-cyan"] {
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.74), rgba(2, 6, 23, 0.58)) !important;
+}
+
+/* Header/title inside Element Index */
+.eos-explorer-list-frame h2,
+.eos-explorer-list-frame h3,
+.eos-explorer-list-frame .text-white,
+.eos-explorer-list-frame-v404 h2,
+.eos-explorer-list-frame-v404 h3,
+.eos-explorer-list-frame-v404 .text-white {
+  color: rgba(248, 250, 252, 0.96) !important;
+}
+
+/* Muted helper text */
+.eos-explorer-list-frame [class*="text-slate-400"],
+.eos-explorer-list-frame [class*="text-slate-500"],
+.eos-explorer-list-frame-v404 [class*="text-slate-400"],
+.eos-explorer-list-frame-v404 [class*="text-slate-500"] {
+  color: rgba(148, 163, 184, 0.78) !important;
+}
+
+/* Search/filter input inside the element index */
+.eos-explorer-list-frame input,
+.eos-explorer-list-frame select,
+.eos-explorer-list-frame-v404 input,
+.eos-explorer-list-frame-v404 select {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(103,232,249,0.05), transparent 42%),
+    rgba(2, 6, 23, 0.72) !important;
+  border: 1px solid rgba(125, 211, 252, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important;
+}
+
+.eos-explorer-list-frame input:focus,
+.eos-explorer-list-frame select:focus,
+.eos-explorer-list-frame-v404 input:focus,
+.eos-explorer-list-frame-v404 select:focus {
+  border-color: rgba(103, 232, 249, 0.42) !important;
+  box-shadow:
+    0 0 0 3px rgba(103, 232, 249, 0.10),
+    inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+/* Element buttons: dark, readable, no turquoise stripe */
+.eos-explorer-list-frame button,
+.eos-explorer-list-frame-v404 button {
+  position: relative !important;
+  overflow: hidden !important;
+  border-color: rgba(125, 211, 252, 0.13) !important;
+  background:
+    linear-gradient(145deg, rgba(15, 23, 42, 0.76), rgba(2, 6, 23, 0.62)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+  white-space: nowrap !important;
+}
+
+/* Remove pseudo stripes from element buttons too */
+.eos-explorer-list-frame button::before,
+.eos-explorer-list-frame button::after,
+.eos-explorer-list-frame-v404 button::before,
+.eos-explorer-list-frame-v404 button::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Hover / selected look: subtle glow, not a stripe */
+.eos-explorer-list-frame button:hover,
+.eos-explorer-list-frame-v404 button:hover {
+  border-color: rgba(103, 232, 249, 0.30) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103,232,249,0.08), transparent 55%),
+    linear-gradient(145deg, rgba(14, 165, 233, 0.13), rgba(99, 102, 241, 0.08)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 12px 34px rgba(8,145,178,.10) !important;
+}
+
+.eos-explorer-list-frame button[aria-pressed="true"],
+.eos-explorer-list-frame button[data-active="true"],
+.eos-explorer-list-frame-v404 button[aria-pressed="true"],
+.eos-explorer-list-frame-v404 button[data-active="true"] {
+  border-color: rgba(103, 232, 249, 0.45) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(103,232,249,0.13), transparent 52%),
+    linear-gradient(145deg, rgba(14, 165, 233, 0.18), rgba(99, 102, 241, 0.12)) !important;
+}
+
+/* Premium internal scrollbar for the sticky index */
+.eos-explorer-list-frame::-webkit-scrollbar,
+.eos-explorer-list-frame-v404::-webkit-scrollbar {
+  width: 8px;
+}
+
+.eos-explorer-list-frame::-webkit-scrollbar-track,
+.eos-explorer-list-frame-v404::-webkit-scrollbar-track {
+  background: rgba(2, 6, 23, 0.52);
+  border-radius: 999px;
+}
+
+.eos-explorer-list-frame::-webkit-scrollbar-thumb,
+.eos-explorer-list-frame-v404::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(103,232,249,.30), rgba(167,139,250,.26));
+  border-radius: 999px;
+}
+
+/* Mobile: no sticky sidebar, no scroll trap */
+@media (max-width: 1023px) {
+  .eos-explorer-list-frame,
+  .eos-explorer-list-frame-v404 {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
+/* =========================================================
+   ELEMENTOS V500 ADDITIVE ADVANCED LABS
+   Safe new lab-page styling. Existing systems preserved.
+   ========================================================= */
+.eos-v500-page,.eos-v500-hub{min-height:100vh;padding:clamp(1rem,2vw,1.5rem);color:#f8fafc;position:relative;isolation:isolate}.eos-v500-page:before,.eos-v500-hub:before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;background:radial-gradient(circle at 72% 18%,rgba(103,232,249,.16),transparent 24%),radial-gradient(circle at 35% 9%,rgba(167,139,250,.12),transparent 28%),linear-gradient(135deg,rgba(2,6,23,.95),rgba(7,17,31,.88),rgba(2,6,23,.96))}.eos-v500-hero,.eos-v500-hubhero{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.86fr);gap:1.25rem;align-items:center;min-height:420px;border:1px solid rgba(125,211,252,.18);border-radius:2rem;padding:clamp(1.25rem,3vw,2rem);background:radial-gradient(circle at 78% 12%,rgba(103,232,249,.12),transparent 28%),linear-gradient(145deg,rgba(15,23,42,.78),rgba(2,6,23,.68));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 28px 90px rgba(0,0,0,.32);backdrop-filter:blur(24px)}.eos-v500-hubhero{display:block;min-height:300px}.eos-v500-pill{display:inline-flex;align-items:center;gap:.5rem;width:fit-content;border:1px solid rgba(103,232,249,.28);border-radius:999px;padding:.5rem .75rem;background:linear-gradient(135deg,rgba(14,165,233,.16),rgba(99,102,241,.1));color:#bae6fd;font-size:.72rem;font-weight:950;text-transform:uppercase;letter-spacing:.18em}.eos-v500-hero h1,.eos-v500-hubhero h1{margin:1rem 0 0;max-width:1000px;font-size:clamp(2.8rem,7vw,6.8rem);line-height:.88;letter-spacing:-.075em;text-shadow:0 0 50px rgba(96,165,250,.18)}.eos-v500-tagline{margin-top:1rem;color:#67e8f9;font-size:clamp(1.1rem,2vw,1.55rem);font-weight:850}.eos-v500-desc,.eos-v500-hubhero p{margin-top:1rem;max-width:760px;color:rgba(226,232,240,.84);font-size:1rem;line-height:1.75}.eos-v500-actions{margin-top:1.35rem;display:flex;flex-wrap:wrap;gap:.75rem}.eos-v500-primary,.eos-v500-secondary{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:.5rem!important;border-radius:999px!important;padding:.85rem 1.1rem!important;font-weight:950!important;white-space:nowrap!important}.eos-v500-primary{border:1px solid rgba(103,232,249,.35)!important;background:linear-gradient(135deg,#67e8f9,#60a5fa 45%,#a78bfa)!important;color:#020617!important;box-shadow:0 18px 54px rgba(37,99,235,.3)}.eos-v500-secondary{border:1px solid rgba(125,211,252,.2)!important;background:rgba(2,6,23,.42)!important;color:#e2e8f0!important}.eos-v500-visual{position:relative;min-height:350px;display:grid;place-items:center;overflow:hidden}.eos-v500-orbit{position:absolute;width:250px;height:250px;border:1px solid rgba(103,232,249,.34);border-radius:50%;animation:eosV500Spin 12s linear infinite}.eos-v500-orbit.two{width:310px;height:160px;transform:rotate(60deg);border-color:rgba(167,139,250,.32);animation-duration:16s}.eos-v500-orbit.three{width:180px;height:315px;transform:rotate(-38deg);border-color:rgba(96,165,250,.28);animation-duration:20s}.eos-v500-core{position:relative;z-index:2;display:grid;place-items:center;width:156px;height:156px;border:1px solid rgba(103,232,249,.38);border-radius:999px;color:#67e8f9;background:radial-gradient(circle at 50% 30%,rgba(103,232,249,.34),transparent 52%),linear-gradient(135deg,rgba(14,165,233,.16),rgba(99,102,241,.2));box-shadow:0 0 80px rgba(14,165,233,.28),inset 0 1px 0 rgba(255,255,255,.12)}.eos-v500-data{position:absolute;z-index:3;display:grid;place-items:center;width:54px;height:54px;border:1px solid rgba(125,211,252,.3);border-radius:1rem;background:rgba(2,6,23,.72);color:#bae6fd;font-weight:950;box-shadow:0 14px 44px rgba(0,0,0,.24)}.eos-v500-data.a{top:18%;left:18%}.eos-v500-data.b{top:24%;right:14%}.eos-v500-data.c{bottom:16%;right:30%}@keyframes eosV500Spin{from{rotate:0deg}to{rotate:360deg}}.eos-v500-grid{margin-top:1.25rem;display:grid;grid-template-columns:260px minmax(0,1fr) 320px;gap:1rem;align-items:start}.eos-v500-side,.eos-v500-intel,.eos-v500-sim,.eos-v500-card,.eos-v500-hubcard{border:1px solid rgba(125,211,252,.18);border-radius:1.5rem;background:radial-gradient(circle at 50% 0%,rgba(103,232,249,.07),transparent 34%),linear-gradient(145deg,rgba(15,23,42,.78),rgba(2,6,23,.68));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 22px 70px rgba(0,0,0,.24);backdrop-filter:blur(22px)}.eos-v500-side,.eos-v500-intel{position:sticky;top:5.5rem;padding:1rem}.eos-v500-nav{display:flex!important;justify-content:flex-start!important;align-items:center!important;gap:.75rem!important;width:100%!important;border:1px solid rgba(125,211,252,.14)!important;border-radius:1rem!important;padding:.72rem .75rem!important;background:rgba(2,6,23,.42)!important;color:rgba(226,232,240,.88)!important;font-size:.86rem!important;font-weight:800!important;white-space:nowrap!important}.eos-v500-nav span{color:#67e8f9;font-size:.7rem;font-weight:950}.eos-v500-center{min-width:0}.eos-v500-sim{padding:1.25rem}.eos-v500-sim h2{margin-top:.6rem;font-size:clamp(1.9rem,4vw,3.4rem);letter-spacing:-.05em}.eos-v500-sim p{margin-top:.55rem;color:rgba(203,213,225,.84);line-height:1.7}.eos-v500-status{border:1px solid rgba(110,231,183,.24);border-radius:999px;padding:.5rem .75rem;background:rgba(16,185,129,.12);color:#bbf7d0;font-size:.75rem;font-weight:950;text-transform:uppercase;letter-spacing:.14em}.eos-v500-live{position:relative;margin-top:1rem;min-height:300px;overflow:hidden;border:1px solid rgba(125,211,252,.15);border-radius:1.5rem;background:linear-gradient(rgba(125,211,252,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(125,211,252,.035) 1px,transparent 1px),radial-gradient(circle at 50% 50%,rgba(103,232,249,.12),transparent 48%),rgba(2,6,23,.5);background-size:34px 34px,34px 34px,auto,auto}.eos-v500-wave{position:absolute;inset:20% 8%;border:1px solid rgba(103,232,249,.24);border-radius:50%;box-shadow:0 0 70px rgba(103,232,249,.16);animation:eosV500Pulse 3s ease-in-out infinite}.eos-v500-node{position:absolute;width:16px;height:16px;border-radius:999px;background:#67e8f9;box-shadow:0 0 30px rgba(103,232,249,.8)}.eos-v500-node.n1{left:20%;top:34%}.eos-v500-node.n2{right:22%;top:28%;background:#a78bfa}.eos-v500-node.n3{left:44%;bottom:24%;background:#6ee7b7}.eos-v500-node.n4{right:34%;bottom:38%}.eos-v500-scan{position:absolute;inset-inline:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#67e8f9,transparent);animation:eosV500Scan 4s ease-in-out infinite}@keyframes eosV500Pulse{0%,100%{transform:scale(.92);opacity:.55}50%{transform:scale(1.08);opacity:1}}@keyframes eosV500Scan{0%{top:0;opacity:0}20%,80%{opacity:1}100%{top:100%;opacity:0}}.eos-v500-shared{margin-top:1rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.eos-v500-card{padding:1rem}.eos-v500-card svg{color:#67e8f9}.eos-v500-card h3{margin-top:.8rem;font-size:1.1rem;font-weight:950}.eos-v500-card p{margin-top:.45rem;color:rgba(203,213,225,.78);font-size:.9rem;line-height:1.6}.eos-v500-metric{border:1px solid rgba(125,211,252,.12);border-radius:1rem;padding:.75rem;background:rgba(2,6,23,.35)}.eos-v500-ai{margin-top:1rem;border:1px solid rgba(103,232,249,.18);border-radius:1.25rem;padding:1rem;background:rgba(14,165,233,.08)}.eos-v500-ai p{margin-top:.65rem;color:rgba(203,213,225,.8);font-size:.9rem;line-height:1.6}.eos-v500-hubgrid{margin-top:1.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}.eos-v500-hubcard{display:flex!important;flex-direction:column!important;align-items:flex-start!important;min-height:260px;padding:1.25rem!important;text-align:left!important;color:white!important;overflow:hidden!important}.eos-v500-hubcard svg{margin-top:1rem;color:#67e8f9}.eos-v500-num{border:1px solid rgba(103,232,249,.24);border-radius:999px;padding:.35rem .55rem;color:#bae6fd;font-size:.7rem;font-weight:950;letter-spacing:.14em}.eos-v500-hubcard h2{margin-top:1rem;font-size:1.45rem;font-weight:950;letter-spacing:-.04em}.eos-v500-hubcard p{margin-top:.45rem;color:rgba(203,213,225,.82);line-height:1.55}.eos-v500-hubcard span{margin-top:auto;display:inline-flex;align-items:center;gap:.35rem;color:#67e8f9;font-size:.85rem;font-weight:950}@media(max-width:1180px){.eos-v500-grid{grid-template-columns:1fr}.eos-v500-side,.eos-v500-intel{position:static}.eos-v500-hero{grid-template-columns:1fr}}@media(max-width:720px){.eos-v500-shared{grid-template-columns:1fr}.eos-v500-visual{min-height:260px}.eos-v500-orbit{width:190px;height:190px}}
+
