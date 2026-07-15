@@ -18760,22 +18760,38 @@ function analyzerDetail(element) {
   };
 }
 
-function ElementAnalyzerAtom({ element, mode, expanded, animated }) {
+function ElementAnalyzerAtom({ element, mode, expanded, animated, scanActive, shellFocus, charge, temperature }) {
   const shells = Math.max(1, Math.min(7, Math.ceil(element.atomicNumber / 18)));
-  const electronCount = Math.min(18, Math.max(2, Math.round(Math.sqrt(element.atomicNumber) * 2.4)));
-  return <div className={`eos-ea-atom ${animated ? "is-animated" : ""} ${expanded ? "is-expanded" : ""}`} aria-label={`${element.name} animated atomic model`}>
+  const electronCount = Math.min(28, Math.max(2, Math.round(Math.sqrt(Math.max(1, element.atomicNumber - charge)) * 2.8)));
+  const heat = Math.max(0, Math.min(1, (temperature + 100) / 1800));
+  return <div className={`eos-ea-atom eos-ea-atom-v530 mode-${mode} ${animated ? "is-animated" : ""} ${expanded ? "is-expanded" : ""} ${scanActive ? "is-scanning" : ""}`} style={{"--ea-heat":heat}} aria-label={`${element.name} interactive atomic model`}>
+    <div className="eos-ea-space-stars" />
+    <div className="eos-ea-field-ring field-one"/><div className="eos-ea-field-ring field-two"/><div className="eos-ea-field-ring field-three"/>
     <div className="eos-ea-core-glow" />
-    <div className="eos-ea-nucleus"><span>{element.symbol}</span><small>{element.atomicNumber}</small></div>
-    {Array.from({length:shells}).map((_, shellIndex) => <div key={shellIndex} className={`eos-ea-shell shell-${shellIndex + 1}`} style={{"--shell": shellIndex + 1, "--tilt": `${(shellIndex % 2 ? -1 : 1) * (12 + shellIndex * 7)}deg`}}>
-      {Array.from({length:Math.max(1, Math.round(electronCount / shells))}).map((__, electronIndex) => <i key={electronIndex} style={{"--electron": electronIndex, "--electrons": Math.max(1, Math.round(electronCount / shells))}} />)}
-    </div>)}
-    {mode === "cloud" && <div className="eos-ea-cloud cloud-a" />}
-    {mode === "cloud" && <div className="eos-ea-cloud cloud-b" />}
-    {mode === "crystal" && <div className="eos-ea-crystal-grid">{Array.from({length:16}).map((_,i)=><b key={i}/>)}</div>}
+    <div className="eos-ea-nucleus"><span>{element.symbol}</span><small>{element.atomicNumber}</small><em>{charge===0?'NEUTRAL':`${charge>0?'+':''}${charge} ION`}</em></div>
+    {Array.from({length:shells}).map((_, shellIndex) => {
+      const shellName = ["K","L","M","N","O","P","Q"][shellIndex];
+      const hidden = shellFocus !== "All shells" && shellFocus !== `${shellName} shell`;
+      const perShell = Math.max(1, Math.round(electronCount / shells));
+      return <div key={shellIndex} className={`eos-ea-shell shell-${shellIndex + 1} ${hidden?'is-dimmed':''}`} style={{"--shell": shellIndex + 1, "--tilt": `${(shellIndex % 2 ? -1 : 1) * (12 + shellIndex * 7)}deg`}}>
+        {Array.from({length:perShell}).map((__, electronIndex) => <i key={electronIndex} style={{"--electron": electronIndex, "--electrons": perShell}}><u/></i>)}
+      </div>;
+    })}
+    {(mode === "cloud" || mode === "field") && <><div className="eos-ea-cloud cloud-a"/><div className="eos-ea-cloud cloud-b"/><div className="eos-ea-cloud cloud-c"/></>}
+    {mode === "crystal" && <div className="eos-ea-crystal-grid eos-ea-crystal-v530">{Array.from({length:27}).map((_,i)=><b key={i}><i/></b>)}</div>}
+    {mode === "spectrum" && <div className="eos-ea-spectrum-halo">{Array.from({length:48}).map((_,i)=><i key={i} style={{"--ray":i,"--height":`${30+((i*element.atomicNumber*13)%70)}%`}}/>)}</div>}
+    {mode === "field" && <div className="eos-ea-vector-field">{Array.from({length:24}).map((_,i)=><i key={i} style={{"--vector":i}}/>)}</div>}
+    {scanActive && <div className="eos-ea-deep-scan"><span/><b>QUANTUM SCAN</b></div>}
     <div className="eos-ea-telemetry t1">Z {element.atomicNumber}</div>
     <div className="eos-ea-telemetry t2">{mode.toUpperCase()}</div>
-    <div className="eos-ea-telemetry t3">LIVE MODEL</div>
+    <div className="eos-ea-telemetry t3">{animated?'MOTION ACTIVE':'MOTION PAUSED'}</div>
+    <div className="eos-ea-telemetry t4">{temperature}°C</div>
   </div>;
+}
+
+function EAStatRing({label,value,unit,accent='cyan'}) {
+  const safe = Math.max(0,Math.min(100,Number(value)||0));
+  return <div className={`eos-ea-stat-ring accent-${accent}`} style={{"--ea-value":`${safe*3.6}deg`}}><div><strong>{Math.round(safe)}</strong><small>{unit}</small></div><span>{label}</span></div>;
 }
 
 function ElementAnalyzerLaboratory({ selected, setSelected, setCompare, setPage }) {
@@ -18793,16 +18809,23 @@ function ElementAnalyzerLaboratory({ selected, setSelected, setCompare, setPage 
   const [shellFocus, setShellFocus] = useState("All shells");
   const [notes, setNotes] = useState("");
   const [experiments, setExperiments] = useState([]);
+  const [scanActive, setScanActive] = useState(false);
+  const [compareSymbol, setCompareSymbol] = useState("Ti");
+  const [activeInsight, setActiveInsight] = useState("identity");
+  const [mission, setMission] = useState("Baseline characterization");
   const element = elementMap[selected] || elementMap.Fe;
   const detail = analyzerDetail(element);
+  const compareElement = elementMap[compareSymbol] || elementMap.Ti;
+  const compareDetail = analyzerDetail(compareElement);
   const results = useMemo(() => elements.filter(e => `${e.symbol} ${e.name}`.toLowerCase().includes(query.toLowerCase())).slice(0,8), [query]);
   const melting = Number(String(detail.melt).replace(/[^0-9.-]/g, "")) || 1000;
   const boiling = Number(String(detail.boil).replace(/[^0-9.-]/g, "")) || 2500;
-  const phase = temperature >= boiling ? "Gas / plasma transition" : temperature >= melting ? "Liquid" : temperature < -150 ? "Cryogenic solid" : "Solid";
+  const phase = temperature >= boiling ? "Gas / plasma" : temperature >= melting ? "Liquid" : temperature < -150 ? "Cryogenic solid" : "Solid";
   const valence = Math.max(1, Math.min(8, ((element.atomicNumber - 1) % 8) + 1));
   const effectiveElectrons = Math.max(0, element.atomicNumber - charge);
-  const conditionScore = Math.max(1, Math.min(99, Math.round(96 - Math.abs(temperature - 25) / 55 - pressure / 18 - Math.abs(charge) * 5)));
+  const conditionScore = Math.max(1, Math.min(99, Math.round(97 - Math.abs(temperature - 25) / 60 - pressure / 20 - Math.abs(charge) * 4.5)));
   const riskLevel = temperature > melting || pressure > 120 || Math.abs(charge) > 2 ? "Elevated" : temperature > 300 || pressure > 40 ? "Moderate" : "Controlled";
+  const compatibility = compatibilityScore(element.symbol, compareElement.symbol);
   const metricsData = [
     ["Atomic radius", Math.min(100, Math.round(detail.radius / 2)), `${detail.radius} pm`],
     ["Density", Math.min(100, Math.round(parseFloat(detail.density) * 6)), `${detail.density} g/cm³`],
@@ -18810,113 +18833,98 @@ function ElementAnalyzerLaboratory({ selected, setSelected, setCompare, setPage 
     ["Thermal response", detail.thermal, `${detail.thermal}%`],
     ["Elastic modulus", detail.modulus, `${detail.modulus}%`],
   ];
+  const insights = {
+    identity: `${element.name} is a ${element.category.toLowerCase()} with atomic number ${element.atomicNumber}, modeled atomic weight ${detail.weight}, and ${detail.crystal.toLowerCase()} structure.`,
+    environment: `At ${temperature} °C and ${pressure} bar, the model predicts ${phase.toLowerCase()} behaviour with ${conditionScore}% environmental confidence and ${riskLevel.toLowerCase()} handling risk.`,
+    electronic: `${element.name} is represented by ${detail.config}. The current charge state contains ${effectiveElectrons} modeled electrons and an estimated valence count of ${valence}.`,
+    opportunity: `${element.name} scores ${detail.conductivity}% conductivity, ${detail.thermal}% thermal response and ${detail.modulus}% modulus in this ElementOS profile.`,
+  };
   const ask = (prompt = question) => {
-    const q = String(prompt || "Explain this element").trim();
-    setQuestion(q);
-    const lower = q.toLowerCase();
-    let text = detail.summary;
-    if (lower.includes("electron")) text = `${element.name} uses the configuration ${detail.config}. In the current ${charge === 0 ? "neutral" : `${charge > 0 ? "+" : ""}${charge} ionic`} state, the model tracks ${effectiveElectrons} electrons with an estimated valence count of ${valence}.`;
-    else if (lower.includes("magnetic")) text = element.symbol === "Fe" ? "Iron is strongly magnetic because unpaired 3d electrons create atomic magnetic moments that can align into domains inside its crystal structure." : `${element.name}'s magnetic response depends on unpaired electrons, crystal phase and temperature. The current environment is ${temperature} °C at ${pressure} bar.`;
-    else if (lower.includes("application") || lower.includes("uses")) text = `${element.name} is evaluated across structural, electrical, thermal, chemical and manufacturing applications. Open Industrial Applications to preserve ${element.symbol} as the active material.`;
-    else if (lower.includes("corrosion")) text = `${element.name}'s corrosion behaviour depends on environment, surface oxide formation, temperature and exposure time. The present lab state is classified as ${riskLevel.toLowerCase()} risk.`;
-    else if (lower.includes("compare")) text = `${element.name} is ready for Compare Mode. Its strongest current signals are conductivity ${detail.conductivity}%, thermal response ${detail.thermal}% and modulus ${detail.modulus}%.`;
-    else if (lower.includes("condition") || lower.includes("temperature") || lower.includes("pressure")) text = `At ${temperature} °C and ${pressure} bar, ElementOS predicts a ${phase.toLowerCase()} state with ${conditionScore}% condition confidence. This is a visualization model, not laboratory certification.`;
-    else if (lower.includes("report")) text = `A research dossier for ${element.name} can include atomic identity, ${detail.crystal} structure, ${detail.config}, physical metrics, environment state, applications, safety context and timeline notes.`;
+    const q = String(prompt || "Explain this element").trim(); setQuestion(q); const lower=q.toLowerCase(); let text=detail.summary;
+    if(lower.includes("electron")||lower.includes("orbital")) text=insights.electronic;
+    else if(lower.includes("condition")||lower.includes("temperature")||lower.includes("pressure")||lower.includes("phase")) text=insights.environment;
+    else if(lower.includes("compare")) text=`${element.name} and ${compareElement.name} show ${compatibility}% modeled compatibility. ${element.name} leads in ${detail.conductivity>=compareDetail.conductivity?'conductivity':'structural response'}, while ${compareElement.name} provides a contrasting atomic and material profile.`;
+    else if(lower.includes("application")||lower.includes("uses")) text=`${element.name} is a candidate for structural, electrical, thermal, chemical and manufacturing workflows. Its strongest current modeled signal is ${Math.max(detail.conductivity,detail.thermal,detail.modulus)}%.`;
+    else if(lower.includes("risk")||lower.includes("safety")||lower.includes("corrosion")) text=`Current conditions are ${riskLevel.toLowerCase()} risk. Review temperature, pressure, phase, ionization, oxide behaviour and exposure duration before real-world engineering use.`;
+    else if(lower.includes("report")) text=`The generated dossier will include atomic identity, electron architecture, spectrum, ${detail.crystal} structure, live environment, comparison against ${compareElement.name}, timeline, notes and experiment states.`;
+    else if(lower.includes("mission")) text=`Mission “${mission}” is active. Recommended sequence: deep scan, isolate valence shell, compare with ${compareElement.name}, capture the state, then export a research dossier.`;
     setAnswer(text);
   };
   const chooseElement = (symbol) => { setSelected(symbol); setQuery(""); setAnswer(""); setCharge(0); showToast(`${elementMap[symbol].name} loaded into Element Analyzer`); };
-  const logExperiment = () => {
-    const entry = { id: Date.now(), label: `${element.symbol} · ${temperature}°C · ${pressure} bar · charge ${charge >= 0 ? "+" : ""}${charge}`, score: conditionScore };
-    setExperiments(items => [entry, ...items].slice(0, 5));
-    showToast("Experimental state captured");
-  };
-  const navItems = ["Overview","Periodic Table","Compare","Isotopes","Crystal Structure","Electron Config","Physical Properties","Chemical Properties","Applications","Safety","Market"];
-  const timelineItems = ["Discovery","Industrial age","Modern era","2026 research","Future"];
-  const quick = [
-    ["Compare", BarChart3, () => { setCompare?.([element.symbol,"Ti"]); setPage("compare"); }],
-    ["Crystal Viewer", Dna, () => { setMode("crystal"); setSection("Crystal Structure"); }],
-    ["Isotopes", Atom, () => setPage("isotopes")],
-    ["Safety", ShieldCheck, () => setPage("lab-safety-risk")],
-    ["Applications", BriefcaseBusiness, () => setPage("lab-industrial")],
-    ["Report", FileText, () => setPage("reports")],
-    ["Capture State", Save, logExperiment],
-    ["Share", Share2, () => navigator.clipboard?.writeText(`${window.location.origin}/?element=${element.symbol}`)],
-  ];
-  return <div className="eos-ea-page eos-ea-v520">
-    <header className="eos-ea-header">
-      <div><div className="eos-ea-kicker"><Atom size={14}/> ElementOS Advanced Laboratory</div><h1>Element Analyzer Laboratory</h1><p>The digital twin of every element.</p></div>
-      <div className="eos-ea-header-actions"><button onClick={()=>ask("Explain this element")}><Bot size={16}/> AI Scientist</button><button onClick={()=>setSection("Experiment History")}><Clock3 size={16}/> History</button><button onClick={()=>setPage("compare")}><BarChart3 size={16}/> Compare</button><button onClick={()=>setPage("reports")}><Download size={16}/> Export</button></div>
-      <div className="eos-ea-live"><span/> LIVE</div>
+  const runScan = () => { setScanActive(true); setAnswer(`Deep scan initiated for ${element.name}. Atomic identity, shell architecture, spectral response, crystal state and environmental telemetry are being synthesized.`); setTimeout(()=>{setScanActive(false); showToast(`${element.name} deep scan complete`);},1800); };
+  const logExperiment = () => { const entry={id:Date.now(),label:`${element.symbol} · ${temperature}°C · ${pressure} bar · ${charge>=0?'+':''}${charge}`,score:conditionScore,mode}; setExperiments(items=>[entry,...items].slice(0,6)); showToast("Experimental state captured"); };
+  const applyPreset=(name,t,p,c,m)=>{setMission(name);setTemperature(t);setPressure(p);setCharge(c);setMode(m);setAnswer(`${name} preset applied to ${element.name}. Run Deep Scan to synthesize the new state.`)};
+  const navItems=["Overview","Periodic Table","Compare","Isotopes","Crystal Structure","Electron Config","Physical Properties","Chemical Properties","Applications","Safety","Market"];
+  const timelineItems=["Discovery","Industrial age","Modern era","2026 research","Future"];
+  const modes=[["orbitals","Orbitals"],["cloud","Electron Cloud"],["crystal","Crystal Lattice"],["spectrum","Spectrum"],["field","Quantum Field"]];
+  return <div className="eos-ea-page eos-ea-v530">
+    <div className="eos-ea-aurora"/><div className="eos-ea-grid-bg"/>
+    <header className="eos-ea-header eos-ea-header-v530">
+      <div><div className="eos-ea-kicker"><Atom size={14}/> ElementOS Flagship Advanced Laboratory</div><h1>Element Analyzer <span>Quantum Laboratory</span></h1><p>The living digital twin of every element—from atomic identity to engineered opportunity.</p></div>
+      <div className="eos-ea-header-actions"><button onClick={()=>ask("Explain this element")}><Bot size={16}/> AI Scientist</button><button onClick={runScan}><Radar size={16}/> Deep Scan</button><button onClick={()=>setPage("compare")}><BarChart3 size={16}/> Compare</button><button onClick={()=>setPage("reports")}><Download size={16}/> Export</button></div>
+      <div className="eos-ea-live"><span/> LAB ONLINE</div>
     </header>
 
-    <section className="eos-ea-workbench">
+    <section className="eos-ea-command-ribbon">
+      <div><span>ACTIVE MISSION</span><strong>{mission}</strong></div>
+      {[['Baseline characterization',25,1,0,'orbitals'],['Cryogenic materials test',-196,4,0,'cloud'],['High-pressure structural test',650,180,0,'crystal'],['Ionization study',1200,12,3,'field']].map(p=><button key={p[0]} onClick={()=>applyPreset(...p)} className={mission===p[0]?'active':''}>{p[0]}</button>)}
+      <button className="scan" onClick={runScan}><Radar size={15}/>{scanActive?'SCANNING…':'RUN DEEP SCAN'}</button>
+    </section>
+
+    <section className="eos-ea-workbench eos-ea-workbench-v530">
       <aside className="eos-ea-nav-panel">
         <div className="eos-ea-panel-title">Element navigation</div>
-        <div className="eos-ea-search"><Search size={16}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search element" /></div>
-        {query && <div className="eos-ea-search-results">{results.map(e=><button key={e.symbol} onClick={()=>chooseElement(e.symbol)}><b>{e.symbol}</b><span>{e.name}</span><small>{e.atomicNumber}</small></button>)}</div>}
-        <div className="eos-ea-nav-list">{navItems.map((item,i)=><button key={item} className={section===item?"active":""} onClick={()=>{setSection(item); if(item==="Compare") setPage("compare"); if(item==="Isotopes") setPage("isotopes"); if(item==="Periodic Table") setPage("periodic"); if(item==="Safety") setPage("lab-safety-risk"); if(item==="Applications") setPage("lab-industrial"); if(item==="Crystal Structure") setMode("crystal");}}><span>{String(i+1).padStart(2,"0")}</span>{item}</button>)}</div>
+        <div className="eos-ea-search"><Search size={16}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search all 118 elements"/></div>
+        {query&&<div className="eos-ea-search-results">{results.map(e=><button key={e.symbol} onClick={()=>chooseElement(e.symbol)}><b>{e.symbol}</b><span>{e.name}</span><small>{e.atomicNumber}</small></button>)}</div>}
+        <div className="eos-ea-current-mini"><div><strong>{element.symbol}</strong><span>{element.atomicNumber}</span></div><p>{element.name}<small>{element.category}</small></p></div>
+        <div className="eos-ea-nav-list">{navItems.map((item,i)=><button key={item} className={section===item?'active':''} onClick={()=>{setSection(item);if(item==='Compare')setPage('compare');if(item==='Isotopes')setPage('isotopes');if(item==='Periodic Table')setPage('periodic');if(item==='Safety')setPage('lab-safety-risk');if(item==='Applications')setPage('lab-industrial');if(item==='Crystal Structure')setMode('crystal');}}><span>{String(i+1).padStart(2,'0')}</span>{item}</button>)}</div>
+        <div className="eos-ea-nav-footer"><Database size={16}/><div><b>118 / 118 indexed</b><small>Element intelligence online</small></div></div>
       </aside>
 
-      <main className="eos-ea-stage">
-        <div className="eos-ea-stage-head"><div><span>3D atomic simulation</span><h2>{element.name} <em>{element.symbol}</em></h2></div><div className="eos-ea-stage-badge">{phase}</div></div>
-        <ElementAnalyzerAtom element={{...element, atomicNumber: effectiveElectrons || element.atomicNumber}} mode={mode} expanded={expanded} animated={animated}/>
-        <div className="eos-ea-state-strip"><span>Charge <b>{charge >= 0 ? "+" : ""}{charge}</b></span><span>Electrons <b>{effectiveElectrons}</b></span><span>Shell focus <b>{shellFocus}</b></span><span>Confidence <b>{conditionScore}%</b></span></div>
-        <div className="eos-ea-controls">
-          <button className={animated?"active":""} onClick={()=>setAnimated(v=>!v)}><Orbit size={15}/> Rotate</button>
-          <button className={expanded?"active":""} onClick={()=>setExpanded(v=>!v)}><Sparkles size={15}/> Explode</button>
-          <button className={mode==="cloud"?"active":""} onClick={()=>setMode("cloud")}><Waves size={15}/> Electron cloud</button>
-          <button className={mode==="orbitals"?"active":""} onClick={()=>setMode("orbitals")}><Atom size={15}/> Orbitals</button>
-          <button className={mode==="crystal"?"active":""} onClick={()=>setMode("crystal")}><Dna size={15}/> Crystal view</button>
-          <button onClick={()=>{setMode("orbitals");setExpanded(false);setAnimated(true);setCharge(0);setTemperature(25);setPressure(1)}}><Activity size={15}/> Reset</button>
-        </div>
+      <main className="eos-ea-stage-panel">
+        <div className="eos-ea-stage-top"><div><span>LIVE ATOMIC DIGITAL TWIN</span><h2>{element.name} <em>{element.symbol}</em></h2></div><div className="eos-ea-stage-status"><i/>{scanActive?'Quantum scan active':'Telemetry synchronized'}</div></div>
+        <div className="eos-ea-mode-tabs">{modes.map(([id,label])=><button key={id} className={mode===id?'active':''} onClick={()=>setMode(id)}>{label}</button>)}</div>
+        <div className="eos-ea-viewport eos-ea-viewport-v530"><ElementAnalyzerAtom element={{...element,atomicNumber:effectiveElectrons||element.atomicNumber}} mode={mode} expanded={expanded} animated={animated} scanActive={scanActive} shellFocus={shellFocus} charge={charge} temperature={temperature}/><div className="eos-ea-corner-data top-left"><span>PHASE</span><b>{phase}</b></div><div className="eos-ea-corner-data top-right"><span>CONFIGURATION</span><b>{detail.config}</b></div><div className="eos-ea-corner-data bottom-left"><span>CRYSTAL</span><b>{detail.crystal}</b></div><div className="eos-ea-corner-data bottom-right"><span>CONFIDENCE</span><b>{conditionScore}%</b></div></div>
+        <div className="eos-ea-controls eos-ea-controls-v530"><button className={animated?'active':''} onClick={()=>setAnimated(v=>!v)}><Orbit size={16}/>{animated?'Pause Motion':'Start Motion'}</button><button className={expanded?'active':''} onClick={()=>setExpanded(v=>!v)}><Layers size={16}/>{expanded?'Collapse':'Explode Atom'}</button><button onClick={()=>setMode('cloud')}><Sparkles size={16}/>Electron Cloud</button><button onClick={()=>setMode('crystal')}><Gem size={16}/>Crystal View</button><button onClick={runScan}><Radar size={16}/>Scan</button><button onClick={()=>{setExpanded(false);setAnimated(true);setMode('orbitals');setShellFocus('All shells')}}><Activity size={16}/>Reset</button></div>
       </main>
 
-      <aside className="eos-ea-intel-panel">
+      <aside className="eos-ea-intelligence-panel">
         <div className="eos-ea-panel-title">Material intelligence</div>
-        <div className="eos-ea-metrics">{metricsData.map(([label,value,display])=><div key={label}><div><span>{label}</span><b>{display}</b></div><i><u style={{width:`${Math.max(5,value)}%`}}/></i></div>)}</div>
-        <div className={`eos-ea-risk is-${riskLevel.toLowerCase()}`}><ShieldCheck size={17}/><div><small>Environment status</small><b>{riskLevel}</b></div></div>
-        <div className="eos-ea-intel-note"><Sparkles size={17}/><div><b>AI signal</b><p>{detail.summary}</p></div></div>
+        <div className="eos-ea-ring-grid"><EAStatRing label="Conductivity" value={detail.conductivity} unit="%"/><EAStatRing label="Thermal" value={detail.thermal} unit="%" accent="violet"/><EAStatRing label="Modulus" value={detail.modulus} unit="%" accent="amber"/><EAStatRing label="Confidence" value={conditionScore} unit="%" accent="emerald"/></div>
+        <div className="eos-ea-metrics">{metricsData.map(([label,value,display])=><div key={label}><div><span>{label}</span><b>{display}</b></div><i><u style={{width:`${Math.min(100,value)}%`}}/></i></div>)}</div>
+        <div className={`eos-ea-risk risk-${riskLevel.toLowerCase()}`}><ShieldCheck size={18}/><div><span>Environment status</span><b>{riskLevel} · {phase}</b></div></div>
+        <div className="eos-ea-insight-switch">{Object.keys(insights).map(k=><button key={k} className={activeInsight===k?'active':''} onClick={()=>setActiveInsight(k)}>{k}</button>)}</div><p className="eos-ea-live-insight">{insights[activeInsight]}</p>
       </aside>
     </section>
 
-    <section className="eos-ea-condition-lab">
-      <div className="eos-ea-condition-head"><div><span>Live condition chamber</span><h2>Change the environment. Watch the element respond.</h2></div><button onClick={logExperiment}><Save size={16}/> Capture experiment</button></div>
+    <section className="eos-ea-condition-deck">
+      <div className="eos-ea-condition-head"><div><span>EXPERIMENT ENVIRONMENT</span><h2>Manipulate the atomic state in real time.</h2></div><button onClick={logExperiment}><Save size={16}/>Capture State</button></div>
       <div className="eos-ea-condition-grid">
-        <label><div><span>Temperature</span><b>{temperature} °C</b></div><input type="range" min="-250" max="3500" step="25" value={temperature} onChange={e=>setTemperature(Number(e.target.value))}/><small>Cryogenic → extreme thermal exposure</small></label>
-        <label><div><span>Pressure</span><b>{pressure} bar</b></div><input type="range" min="1" max="250" value={pressure} onChange={e=>setPressure(Number(e.target.value))}/><small>Atmospheric → high-pressure chamber</small></label>
-        <label><div><span>Ionization state</span><b>{charge >= 0 ? "+" : ""}{charge}</b></div><input type="range" min="-3" max="4" value={charge} onChange={e=>setCharge(Number(e.target.value))}/><small>Anion → neutral atom → cation</small></label>
-        <label><div><span>Shell isolation</span><b>{shellFocus}</b></div><select value={shellFocus} onChange={e=>setShellFocus(e.target.value)}>{["All shells","K shell","L shell","M shell","Valence shell"].map(v=><option key={v}>{v}</option>)}</select><small>Focus the model on one electron region</small></label>
-      </div>
-      <div className="eos-ea-condition-results">
-        <div><small>Predicted phase</small><strong>{phase}</strong><p>Based on the current temperature relative to the indexed melting and boiling points.</p></div>
-        <div><small>Atomic state</small><strong>{charge === 0 ? "Neutral atom" : charge > 0 ? `${charge}+ cation` : `${Math.abs(charge)}− anion`}</strong><p>{effectiveElectrons} modeled electrons · estimated valence {valence}.</p></div>
-        <div><small>Condition confidence</small><strong>{conditionScore}%</strong><p>Exploratory simulation confidence under the selected environment.</p></div>
-        <div><small>Risk signal</small><strong>{riskLevel}</strong><p>Open Safety & Risk for deeper handling and exposure analysis.</p></div>
+        <label><span>Temperature <b>{temperature} °C</b></span><input type="range" min="-250" max="3500" value={temperature} onChange={e=>setTemperature(Number(e.target.value))}/><small>Cryogenic → plasma transition</small></label>
+        <label><span>Pressure <b>{pressure} bar</b></span><input type="range" min="1" max="250" value={pressure} onChange={e=>setPressure(Number(e.target.value))}/><small>Ambient → extreme compression</small></label>
+        <label><span>Ionization <b>{charge>0?'+':''}{charge}</b></span><input type="range" min="-3" max="4" value={charge} onChange={e=>setCharge(Number(e.target.value))}/><small>{effectiveElectrons} modeled electrons</small></label>
+        <label><span>Shell isolation <b>{shellFocus}</b></span><select value={shellFocus} onChange={e=>setShellFocus(e.target.value)}>{['All shells','K shell','L shell','M shell','N shell','O shell','P shell','Q shell'].map(x=><option key={x}>{x}</option>)}</select><small>Focus the viewport on one electron layer</small></label>
       </div>
     </section>
 
-    <section className="eos-ea-context-grid">
-      <article className="eos-ea-current"><div className="eos-ea-panel-title">Current element</div><div className="eos-ea-element-card"><div className="eos-ea-symbol"><small>{element.atomicNumber}</small>{element.symbol}</div><div><h2>{element.name}</h2><p>{element.category}</p></div></div><dl><div><dt>Atomic weight</dt><dd>{detail.weight}</dd></div><div><dt>Group / period</dt><dd>{detail.group} / {detail.period}</dd></div><div><dt>Crystal</dt><dd>{detail.crystal}</dd></div><div><dt>Electron config</dt><dd>{detail.config}</dd></div><div><dt>Melting point</dt><dd>{detail.melt}</dd></div><div><dt>Boiling point</dt><dd>{detail.boil}</dd></div></dl></article>
-      <article className="eos-ea-timeline"><div className="eos-ea-panel-title">Discovery timeline</div><div className="eos-ea-timeline-track">{timelineItems.map((item,i)=><button key={item} className={timeline===item?"active":""} onClick={()=>setTimeline(item)}><i/><span>{["Ancient","1800s","1950","2026","Next"][i]}</span><b>{item}</b></button>)}</div><div className="eos-ea-timeline-copy"><Clock3 size={21}/><div><b>{timeline}: {element.name}</b><p>{timeline === "Future" ? `${element.name} is modelled across advanced alloys, low-carbon systems, energy infrastructure and circular manufacturing.` : `${element.name} is shown in the context of ${timeline.toLowerCase()}, with applications and scientific understanding linked to this point in time.`}</p></div></div></article>
-      <article className="eos-ea-summary"><div className="eos-ea-panel-title">AI summary</div><h3>{element.name} intelligence brief</h3><p>{detail.summary}</p><div className="eos-ea-summary-grid"><span>Atomic no. <b>{element.atomicNumber}</b></span><span>Category <b>{element.category}</b></span><span>Crystal <b>{detail.crystal}</b></span><span>Confidence <b>{conditionScore}%</b></span></div><button onClick={()=>setPage("reports")}><FileText size={16}/> Export research brief</button></article>
+    <section className="eos-ea-analysis-deck">
+      <article className="eos-ea-identity-card"><div className="eos-ea-identity-symbol"><span>{element.atomicNumber}</span><strong>{element.symbol}</strong><small>{detail.weight}</small></div><div><div className="eos-ea-panel-title">Current element</div><h2>{element.name}</h2><p>{detail.summary}</p><div className="eos-ea-identity-facts"><span>Group <b>{detail.group}</b></span><span>Period <b>{detail.period}</b></span><span>Density <b>{detail.density}</b></span><span>Radius <b>{detail.radius} pm</b></span></div></div></article>
+      <article className="eos-ea-compare-lens"><div className="eos-ea-panel-title">Instant comparison lens</div><div className="eos-ea-compare-head"><div><strong>{element.symbol}</strong><span>{element.name}</span></div><b>{compatibility}%</b><div><select value={compareSymbol} onChange={e=>setCompareSymbol(e.target.value)}>{elements.filter(e=>e.symbol!==element.symbol).map(e=><option key={e.symbol} value={e.symbol}>{e.symbol} · {e.name}</option>)}</select><span>{compareElement.category}</span></div></div>{[['Conductivity',detail.conductivity,compareDetail.conductivity],['Thermal',detail.thermal,compareDetail.thermal],['Modulus',detail.modulus,compareDetail.modulus]].map(([l,a,b])=><div className="eos-ea-dual-bar" key={l}><span>{l}</span><i><u style={{width:`${a}%`}}/><em style={{width:`${b}%`}}/></i><b>{a} / {b}</b></div>)}<button onClick={()=>{setCompare?.([element.symbol,compareElement.symbol]);setPage('compare')}}>Open full Compare Engine <ChevronRight size={16}/></button></article>
+      <article className="eos-ea-timeline"><div className="eos-ea-panel-title">Discovery timeline</div><div className="eos-ea-timeline-track">{timelineItems.map((item,i)=><button key={item} className={timeline===item?'active':''} onClick={()=>setTimeline(item)}><i/><span>{[1808,1856,1950,2026,'Future'][i]}</span><b>{item}</b></button>)}</div><p><Sparkles size={15}/>{timeline==='Future'?`${element.name} enters an AI-generated future-materials scenario focused on advanced manufacturing and sustainable substitution.`:`${timeline} context loaded for ${element.name}. The atomic model and research narrative remain synchronized.`}</p></article>
     </section>
 
-    <section className="eos-ea-research-grid">
-      <article className="eos-ea-spectrum"><div className="eos-ea-panel-title">Spectral fingerprint</div><div className="eos-ea-spectrum-chart">{Array.from({length:36}).map((_,i)=><i key={i} style={{height:`${12 + ((i * element.atomicNumber * 7) % 88)}%`, opacity:.25 + ((i * 11)%70)/100}}/>)}</div><div className="eos-ea-spectrum-axis"><span>UV</span><span>Visible spectrum</span><span>Infrared</span></div><p>Illustrative emission fingerprint generated from the current atomic index and ionization state.</p></article>
-      <article className="eos-ea-shell-table"><div className="eos-ea-panel-title">Electron architecture</div>{["K","L","M","N","O","P","Q"].slice(0,Math.max(1,Math.ceil(element.atomicNumber/18))).map((shell,i)=>{const capacity=2*(i+1)*(i+1);const occupied=Math.max(0,Math.min(capacity,effectiveElectrons-[2,10,28,60,110,182,280][i] + capacity));return <div key={shell}><span>{shell} shell</span><i><u style={{width:`${Math.min(100,occupied/capacity*100)}%`}}/></i><b>{occupied}/{capacity}</b></div>})}<p>Shell occupancy is a simplified visualization for navigation and teaching.</p></article>
-      <article className="eos-ea-notebook"><div className="eos-ea-panel-title">Research notebook</div><textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder={`Record observations about ${element.name}, the current environment, possible applications or comparison ideas...`}/><div className="eos-ea-notebook-foot"><span>{notes.length} characters</span><button onClick={()=>showToast("Laboratory note saved in this session")}><Save size={15}/> Save note</button></div>{experiments.length>0&&<div className="eos-ea-log"><b>Recent captured states</b>{experiments.map(x=><button key={x.id} onClick={()=>setQuestion(`Explain condition state ${x.label}`)}><span>{x.label}</span><strong>{x.score}%</strong></button>)}</div>}</article>
+    <section className="eos-ea-research-grid eos-ea-research-grid-v530">
+      <article className="eos-ea-spectrum"><div className="eos-ea-panel-title">Spectral fingerprint</div><div className="eos-ea-spectrum-chart">{Array.from({length:48}).map((_,i)=><i key={i} style={{height:`${12+((i*element.atomicNumber*7+Math.abs(charge)*17)%88)}%`,opacity:.3+((i*11)%65)/100}}/>)}</div><div className="eos-ea-spectrum-axis"><span>UV</span><span>Visible spectrum</span><span>Infrared</span></div><p>Interactive illustrative emission profile shaped by atomic index and ionization.</p></article>
+      <article className="eos-ea-shell-table"><div className="eos-ea-panel-title">Electron architecture</div>{['K','L','M','N','O','P','Q'].slice(0,Math.max(1,Math.ceil(element.atomicNumber/18))).map((shell,i)=>{const capacity=2*(i+1)*(i+1);const prior=[0,2,10,28,60,110,182][i];const occupied=Math.max(0,Math.min(capacity,effectiveElectrons-prior));return <div key={shell} className={shellFocus===`${shell} shell`?'focused':''}><span>{shell} shell</span><i><u style={{width:`${Math.min(100,occupied/capacity*100)}%`}}/></i><b>{occupied}/{capacity}</b></div>})}<p>Simplified shell occupancy visualization for exploration and teaching.</p></article>
+      <article className="eos-ea-notebook"><div className="eos-ea-panel-title">Research notebook</div><textarea value={notes} onChange={e=>setNotes(e.target.value)} placeholder={`Record observations about ${element.name}, environment, applications or comparison ideas...`}/><div className="eos-ea-notebook-foot"><span>{notes.length} characters</span><button onClick={()=>showToast('Laboratory note saved in this session')}><Save size={15}/>Save note</button></div>{experiments.length>0&&<div className="eos-ea-log"><b>Captured experiment states</b>{experiments.map(x=><button key={x.id} onClick={()=>{setQuestion(`Explain ${x.label}`);setAnswer(`Captured ${x.mode} state: ${x.label}, modeled confidence ${x.score}%.`)}}><span>{x.label}</span><strong>{x.score}%</strong></button>)}</div>}</article>
     </section>
 
-    <section className="eos-ea-scientist">
-      <div className="eos-ea-scientist-head"><div className="eos-ea-ai-avatar"><Bot size={28}/></div><div><span>AI Element Scientist</span><h2>Hello Paul. You’re analysing {element.name}.</h2><p>The scientist now understands the selected element, visualization mode, ionization, temperature and pressure.</p></div></div>
-      <div className="eos-ea-prompt-chips">{[`Explain ${element.name}'s electron configuration`,`Explain the current conditions`,`Why is ${element.name} magnetic?`,`Compare ${element.name} with Titanium`,`Show industrial applications`,`Generate engineering report`].map(p=><button key={p} onClick={()=>ask(p)}>{p}</button>)}</div>
-      {answer && <div className="eos-ea-answer"><Sparkles size={18}/><p>{answer}</p></div>}
-      <div className="eos-ea-chat"><input value={question} onChange={e=>setQuestion(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")ask()}} placeholder={`Ask anything about ${element.name}...`}/><button onClick={()=>ask()}><Bot size={16}/> Send</button></div>
-    </section>
+    <section className="eos-ea-scientist eos-ea-scientist-v530"><div className="eos-ea-scientist-head"><div className="eos-ea-ai-avatar"><Bot size={28}/><i/></div><div><span>AI ELEMENT SCIENTIST</span><h2>Hello Paul. The entire {element.name} laboratory is in context.</h2><p>Ask about electron architecture, phase transitions, comparison, risk, applications, experiments or reports.</p></div><button onClick={()=>ask('Recommend the next mission')}><Target size={16}/>Recommend next experiment</button></div><div className="eos-ea-prompt-chips">{[`Explain ${element.name}'s orbitals`,`Interpret the live conditions`,`Compare with ${compareElement.name}`,`Assess safety and risk`,`Recommend applications`,`Generate engineering report`].map(p=><button key={p} onClick={()=>ask(p)}>{p}</button>)}</div>{answer&&<div className="eos-ea-answer"><Sparkles size={18}/><p>{answer}</p></div>}<div className="eos-ea-chat"><input value={question} onChange={e=>setQuestion(e.target.value)} onKeyDown={e=>{if(e.key==='Enter')ask()}} placeholder={`Ask anything about ${element.name} or the live experiment...`}/><button onClick={()=>ask()}><Bot size={16}/>Analyze</button></div></section>
 
-    <section className="eos-ea-quick"><div className="eos-ea-panel-title">Quick actions</div><div>{quick.map(([label,Icon,handler])=><button key={label} onClick={handler}><Icon size={17}/><span>{label}</span></button>)}</div></section>
+    <section className="eos-ea-quick"><div className="eos-ea-panel-title">Laboratory launchpad</div><div>{[["Compare",BarChart3,()=>{setCompare?.([element.symbol,compareElement.symbol]);setPage('compare')}],["Crystal Viewer",Gem,()=>setMode('crystal')],["Isotope Lab",Atom,()=>setPage('isotopes')],["Safety & Risk",ShieldCheck,()=>setPage('lab-safety-risk')],["Applications",BriefcaseBusiness,()=>setPage('lab-industrial')],["Chemistry",Calculator,()=>setPage('lab-chemistry')],["Capture State",Save,logExperiment],["Export Dossier",FileText,()=>setPage('reports')]].map(([label,Icon,handler])=><button key={label} onClick={handler}><Icon size={18}/><span>{label}</span><ChevronRight size={14}/></button>)}</div></section>
   </div>;
 }
+
 
 function V500AdvancedLabPage({labId,setPage}){const lab=V500_LABS.find(l=>l.id===labId)||V500_LABS[0];const Icon=lab.icon;return <div className={`eos-v500-page eos-v500-${lab.tone}`}><section className="eos-v500-hero"><div><div className="eos-v500-pill"><Icon size={14}/> Advanced Lab</div><h1>{lab.title}</h1><p className="eos-v500-tagline">{lab.tagline}</p><p className="eos-v500-desc">{lab.desc}</p><div className="eos-v500-actions"><button type="button" className="eos-v500-primary" onClick={()=>showToast(`${lab.short} simulation generated`)}>Generate Simulation <ChevronRight size={16}/></button><button type="button" className="eos-v500-secondary" onClick={()=>setPage('reports')}>Build Report <FileText size={16}/></button><button type="button" className="eos-v500-secondary" onClick={()=>setPage('compare')}>Compare Mode <BarChart3 size={16}/></button></div></div><V500Orb lab={lab}/></section><section className="eos-v500-grid"><aside className="eos-v500-side"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Lab navigation</div><div className="mt-4 grid gap-2">{lab.nav.map((n,i)=><button key={n} type="button" className="eos-v500-nav" onClick={()=>showToast(`${n} opened`)}><span>{String(i+1).padStart(2,'0')}</span>{n}</button>)}</div></aside><main className="eos-v500-center"><div className="eos-v500-sim"><div className="flex flex-wrap items-start justify-between gap-4"><div><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Live simulation</div><h2>{lab.short} engine</h2><p>{lab.outputs.join(' · ')}</p></div><div className="eos-v500-status">Prototype Ready</div></div><div className="eos-v500-live"><div className="eos-v500-wave"/><div className="eos-v500-node n1"/><div className="eos-v500-node n2"/><div className="eos-v500-node n3"/><div className="eos-v500-node n4"/><div className="eos-v500-scan"/></div></div><div className="eos-v500-shared">{[["AI Research Assistant",lab.desc,Bot],["Experiment History","Every generated scenario becomes a reusable lab timeline entry.",Clock3],["Compare Mode","Open two analyses side-by-side and compare material signals.",BarChart3],["Report Builder","Create a polished research-ready report from this lab.",FileText]].map(([t,b,I])=><div key={t} className="eos-v500-card"><I size={22}/><h3>{t}</h3><p>{b}</p></div>)}</div></main><aside className="eos-v500-intel"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Material Intelligence</div><div className="mt-5 grid gap-4">{lab.metrics.map(([l,v])=><V500Metric key={l} label={l} value={v}/>)}</div><div className="eos-v500-ai"><div className="flex items-center gap-2 text-sm font-black text-white"><Bot size={16}/> AI Lab Assistant</div><p>Ask questions, suggest experiments, compare outputs and generate reports inside this lab.</p></div></aside></section></div>}
 function V500AdvancedLabsHub({setPage}){return <div className="eos-v500-hub"><section className="eos-v500-hubhero"><div className="eos-v500-pill"><Sparkles size={14}/> Advanced Labs</div><h1>Deep Science. Real Data. Limitless Discovery.</h1><p>Nine cinematic research labs that turn ElementOS into a full operating system for material intelligence.</p></section><section className="eos-v500-hubgrid">{V500_LABS.map((lab,i)=>{const Icon=lab.icon;return <button key={lab.id} type="button" className={`eos-v500-hubcard eos-v500-${lab.tone}`} onClick={()=>setPage(lab.id)}><div className="eos-v500-num">LAB {String(i+1).padStart(2,'0')}</div><Icon size={42}/><h2>{lab.short}</h2><p>{lab.tagline}</p><span>Open Lab <ChevronRight size={14}/></span></button>})}</section></div>}
