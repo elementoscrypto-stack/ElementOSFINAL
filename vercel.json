@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "node scripts/vercel-install.cjs",
+  "installCommand": "rm -rf node_modules && npx --yes npm@10.8.2 install --no-audit --no-fund",
   "framework": "vite"
 }
