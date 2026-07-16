@@ -1,7 +1,7 @@
 {
   "name": "elementos-beta",
   "private": true,
-  "version": "1.0.563",
+  "version": "1.0.564",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -26,6 +26,8 @@
     "tailwindcss": "3.4.17"
   },
   "engines": {
-    "node": "20.x"
-  }
+    "node": "20.x",
+    "npm": "10.8.x"
+  },
+  "packageManager": "npm@10.8.2"
 }

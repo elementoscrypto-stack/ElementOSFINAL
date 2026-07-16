@@ -1,24 +1,16 @@
-# ElementOS V563 — Vercel Install Repair
+# ElementOS V564 — Vercel npm Repair
 
-Source-only GitHub/Vercel bundle.
+Source-only deployment bundle. It excludes `node_modules` and `dist`.
 
-## Deployment repair
+Vercel installation is routed through `scripts/vercel-install.cjs`, which:
 
-- Uses Node.js 20.x to avoid known npm exit-handler failures seen under some Node 22/24 build environments.
-- Vercel removes any stale `node_modules` file, symlink, or directory before installation.
-- Uses `npm install` with the committed lockfile rather than forcing `npm ci`.
-- Contains no `node_modules` or `dist`.
+1. Deletes any stale file, symlink, or directory named `node_modules`.
+2. Uses a fresh cache under `/tmp`.
+3. Runs pinned npm 10.8.2 rather than the npm release producing `Exit handler never called`.
+4. Installs dependencies before Vite builds the application.
 
-## Required one-time Git cleanup
+## Required Vercel setting
 
-Run these from the repository root before pushing this version:
+Project Settings → Build & Development Settings → Install Command must be set to **Use Project Settings / vercel.json**, not an old manual `npm ci` override.
 
-```bash
-git rm -r --cached node_modules 2>/dev/null || true
-rm -rf node_modules dist
-git add -A
-git commit -m "Remove generated dependencies and repair Vercel install"
-git push
-```
-
-Then redeploy on Vercel with **Use existing Build Cache unchecked**.
+Redeploy once with **Use existing Build Cache** disabled.
