@@ -1615,15 +1615,17 @@ const PAGE_LABELS = {
 const MOBILE_PAGE_ORDER = [
   "landing",
   "dashboard",
-  "explorer",
+  "lab-element-analyzer",
   "periodic",
   "compare",
-  "timemachine",
-  "calculations",
   "atlas",
+  "calculations",
+  "timemachine",
   "reports",
   "lab",
-  "lab-element-analyzer",
+  "materialsdiscovery",
+  "seismo",
+  "welldriller",
 ];
 
 function pageLabel(page) {
@@ -2243,7 +2245,7 @@ function Pill({ children, gold = false }) { return <span className={`inline-flex
 function Button({ children, onClick, variant = "ghost", className = "", disabled = false, title = "", ariaLabel = "", ...props }) {
   const styles =
     variant === "primary"
-      ? "border border-cyan-300/40 bg-slate-950/[.85] text-cyan-50 shadow-[0_0_0_1px_rgba(34,211,238,.12),0_18px_44px_rgba(0,0,0,.28)] hover:border-cyan-200/70 hover:bg-cyan-300/10"
+      ? "eos-primary border border-cyan-100/60 bg-gradient-to-br from-cyan-200 via-sky-300 to-violet-400 text-slate-950 shadow-[inset_0_1px_0_rgba(255,255,255,.55),0_16px_44px_rgba(37,99,235,.30)] hover:border-white/80 hover:brightness-105"
       : variant === "danger"
       ? "border border-rose-300/25 bg-rose-400/10 text-rose-100 shadow-[0_0_24px_rgba(244,63,94,.12)]"
       : "border border-[#17365f] bg-[#071425]/80 text-slate-100 hover:border-[#0ea5ff]/60 hover:bg-[#0b1d35]";
@@ -2269,6 +2271,7 @@ function Button({ children, onClick, variant = "ghost", className = "", disabled
       aria-label={ariaLabel || (typeof children === "string" ? children : undefined)}
       className={`eos-button eos-button-fit eos-touch-glow eos-liquid-button inline-flex min-w-[8.5rem] max-w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-center font-bold leading-tight whitespace-nowrap transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_28px_rgba(0,145,255,.22)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0 disabled:hover:shadow-none ${styles} ${className}`}
       data-eos-control="button"
+      data-eos-variant={variant}
       data-eos-fit="auto"
       {...props}
     >
@@ -4652,40 +4655,29 @@ function Sidebar({ page, setPage }) {
   const primaryItems = [
     ["landing", "Homepage", Home],
     ["dashboard", "Mission Intelligence", Sparkles],
-    ["explorer", "Element Explorer", Search],
+    ["lab-element-analyzer", "Element Analyzer", Atom],
     ["periodic", "Element Map", Layers],
-    ["compare", "Compare", BarChart3],
-    ["timemachine", "Time Machine", Clock3],
-    ["calculations", "Calculation Studio", Calculator],
+    ["compare", "Material Comparison", BarChart3],
     ["atlas", "Interaction Atlas", Radar],
+    ["calculations", "Calculation Studio", Calculator],
+    ["timemachine", "Time Machine", Clock3],
     ["reports", "Research Centre", BookOpen],
   ];
 
   const groups = [
     {
       id: "advanced",
-      label: "Labs",
+      label: "Advanced Labs",
       icon: Radar,
       items: [
-        ["lab", "Advanced Labs", Radar],
-
-        ['lab-element-analyzer', 'Element Analyzer', Atom],
-        ['lab-materials-engineering', 'Materials Engineering', Gem],
-        ['lab-bioelements', 'BioElements', Dna],
-        ['lab-geoscience', 'GeoScience', Globe2],
-        ['lab-industrial', 'Industrial Applications', BriefcaseBusiness],
-        ['lab-energy', 'Energy Lab', Zap],
-        ['lab-chemistry', 'Chemistry Simulator', Calculator],
-        ['lab-safety-risk', 'Safety & Risk', ShieldCheck],
-        ['lab-material-discovery', 'Material Discovery', Orbit],
-
-        ["accelerator", "Particle Accelerator", Zap],
+        ["lab", "Labs Overview", Radar],
+        ["lab-materials-engineering", "Materials Engineering", Gem],
+        ["lab-chemistry", "Chemistry Simulator", Calculator],
         ["materialsdiscovery", "Materials Discovery", Sparkles],
-        ["extremelab", "Extreme Environment", ShieldCheck],
-        ["crystallab", "Crystal Structure", Dna],
-        ["failurelab", "Failure Analysis", Activity],
-        ["manufacturinglab", "Manufacturing", Settings],
-        ["isotopes", "Isotope Lab", Atom],
+        ["lab-bioelements", "BioElements", Dna],
+        ["lab-geoscience", "GeoScience", Globe2],
+        ["lab-energy", "Energy Lab", Zap],
+        ["accelerator", "Particle Accelerator", Orbit],
         ["seismo", "Seismic Laboratory", Network],
         ["welldriller", "Well Driller", Compass],
       ],
@@ -18927,10 +18919,50 @@ function ElementAnalyzerLaboratory({ selected, setSelected, setCompare, setPage 
 
 
 function V500AdvancedLabPage({labId,setPage}){const lab=V500_LABS.find(l=>l.id===labId)||V500_LABS[0];const Icon=lab.icon;return <div className={`eos-v500-page eos-v500-${lab.tone}`}><section className="eos-v500-hero"><div><div className="eos-v500-pill"><Icon size={14}/> Advanced Lab</div><h1>{lab.title}</h1><p className="eos-v500-tagline">{lab.tagline}</p><p className="eos-v500-desc">{lab.desc}</p><div className="eos-v500-actions"><button type="button" className="eos-v500-primary" onClick={()=>showToast(`${lab.short} simulation generated`)}>Generate Simulation <ChevronRight size={16}/></button><button type="button" className="eos-v500-secondary" onClick={()=>setPage('reports')}>Build Report <FileText size={16}/></button><button type="button" className="eos-v500-secondary" onClick={()=>setPage('compare')}>Compare Mode <BarChart3 size={16}/></button></div></div><V500Orb lab={lab}/></section><section className="eos-v500-grid"><aside className="eos-v500-side"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Lab navigation</div><div className="mt-4 grid gap-2">{lab.nav.map((n,i)=><button key={n} type="button" className="eos-v500-nav" onClick={()=>showToast(`${n} opened`)}><span>{String(i+1).padStart(2,'0')}</span>{n}</button>)}</div></aside><main className="eos-v500-center"><div className="eos-v500-sim"><div className="flex flex-wrap items-start justify-between gap-4"><div><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Live simulation</div><h2>{lab.short} engine</h2><p>{lab.outputs.join(' · ')}</p></div><div className="eos-v500-status">Prototype Ready</div></div><div className="eos-v500-live"><div className="eos-v500-wave"/><div className="eos-v500-node n1"/><div className="eos-v500-node n2"/><div className="eos-v500-node n3"/><div className="eos-v500-node n4"/><div className="eos-v500-scan"/></div></div><div className="eos-v500-shared">{[["AI Research Assistant",lab.desc,Bot],["Experiment History","Every generated scenario becomes a reusable lab timeline entry.",Clock3],["Compare Mode","Open two analyses side-by-side and compare material signals.",BarChart3],["Report Builder","Create a polished research-ready report from this lab.",FileText]].map(([t,b,I])=><div key={t} className="eos-v500-card"><I size={22}/><h3>{t}</h3><p>{b}</p></div>)}</div></main><aside className="eos-v500-intel"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Material Intelligence</div><div className="mt-5 grid gap-4">{lab.metrics.map(([l,v])=><V500Metric key={l} label={l} value={v}/>)}</div><div className="eos-v500-ai"><div className="flex items-center gap-2 text-sm font-black text-white"><Bot size={16}/> AI Lab Assistant</div><p>Ask questions, suggest experiments, compare outputs and generate reports inside this lab.</p></div></aside></section></div>}
-function V500AdvancedLabsHub({setPage}){return <div className="eos-v500-hub"><section className="eos-v500-hubhero"><div className="eos-v500-pill"><Sparkles size={14}/> Advanced Labs</div><h1>Deep Science. Real Data. Limitless Discovery.</h1><p>Nine cinematic research labs that turn ElementOS into a full operating system for material intelligence.</p></section><section className="eos-v500-hubgrid">{V500_LABS.map((lab,i)=>{const Icon=lab.icon;return <button key={lab.id} type="button" className={`eos-v500-hubcard eos-v500-${lab.tone}`} onClick={()=>setPage(lab.id)}><div className="eos-v500-num">LAB {String(i+1).padStart(2,'0')}</div><Icon size={42}/><h2>{lab.short}</h2><p>{lab.tagline}</p><span>Open Lab <ChevronRight size={14}/></span></button>})}</section></div>}
+const V540_VISIBLE_ADVANCED_LABS = new Set([
+  "lab-element-analyzer",
+  "lab-materials-engineering",
+  "lab-bioelements",
+  "lab-geoscience",
+  "lab-energy",
+  "lab-chemistry",
+  "lab-material-discovery",
+]);
+
+function V500AdvancedLabsHub({setPage}){
+  const visibleLabs = V500_LABS.filter((lab) => V540_VISIBLE_ADVANCED_LABS.has(lab.id));
+  return <div className="eos-v500-hub"><section className="eos-v500-hubhero"><div className="eos-v500-pill"><Sparkles size={14}/> Advanced Labs</div><h1>Deep Science. Clearer Workflows. Limitless Discovery.</h1><p>A focused laboratory system led by the Quantum Element Analyzer, with specialist labs for engineering, chemistry, discovery, biology, geoscience and energy.</p></section><section className="eos-v500-hubgrid">{visibleLabs.map((lab,i)=>{const Icon=lab.icon;return <button key={lab.id} type="button" className={`eos-v500-hubcard eos-v500-${lab.tone}`} onClick={()=>setPage(lab.id)}><div className="eos-v500-num">LAB {String(i+1).padStart(2,'0')}</div><Icon size={42}/><h2>{lab.short}</h2><p>{lab.tagline}</p><span>Open Lab <ChevronRight size={14}/></span></button>})}</section><section className="mt-6 rounded-[2rem] border border-cyan-300/15 bg-cyan-300/[0.05] p-5"><div className="text-xs font-black uppercase tracking-[.22em] text-cyan-200">Consolidated in V540</div><p className="mt-2 max-w-4xl text-sm leading-6 text-slate-300">Crystal Structure, Isotopes, Safety, Industrial Applications and Extreme Environment workflows now open inside Element Analyzer. Manufacturing and Failure Analysis now route into Materials Engineering. Their underlying code is preserved for safe migration.</p></section></div>}
+
+const ELEMENTOS_ROUTE_REDIRECTS = Object.freeze({
+  explorer: "lab-element-analyzer",
+  crystallab: "lab-element-analyzer",
+  extremelab: "lab-element-analyzer",
+  isotopes: "lab-element-analyzer",
+  "lab-safety-risk": "lab-element-analyzer",
+  "lab-industrial": "lab-element-analyzer",
+  failurelab: "lab-materials-engineering",
+  manufacturinglab: "lab-materials-engineering",
+  "lab-material-discovery": "materialsdiscovery",
+  graph: "universe",
+  copilot: "dashboard",
+  mission: "dashboard",
+  scenario: "dashboard",
+  matterlab: "dashboard",
+  visualization: "reports",
+  advisorreport: "reports",
+});
+
+function resolveElementOSRoute(nextPage) {
+  const requested = typeof nextPage === "function" ? nextPage("dashboard") : nextPage;
+  return ELEMENTOS_ROUTE_REDIRECTS[requested] || requested || "dashboard";
+}
 
 export default function App() {
-  const [page, setPage] = useState("landing");
+  const [page, setRawPage] = useState("landing");
+  const setPage = (nextPage) => setRawPage((currentPage) => {
+    const requested = typeof nextPage === "function" ? nextPage(currentPage) : nextPage;
+    return resolveElementOSRoute(requested);
+  });
   const [selected, setSelected] = useState("Al");
   const [compare, setCompare] = useState(["H"]);
   const [session, setSession] = useState(null);
